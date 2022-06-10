@@ -146,6 +146,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\common\GLShader.cpp" />
+    <ClCompile Include="..\common\toolsbox.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="ProjetOpenGL.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +155,10 @@
     <None Include="transform.vs" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\GLShader.h" />
+    <ClInclude Include="..\common\toolsbox.h" />
     <ClInclude Include="DragonData.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="stb\stb_image.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>

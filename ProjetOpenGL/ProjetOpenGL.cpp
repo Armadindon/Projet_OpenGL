@@ -11,6 +11,7 @@
 #include <GLFW/glfw3.h>
 
 #include "../common/GLShader.h"
+#include "Matrix.h"
 
 #include "Vertex.h"
 #include "DragonData.h"
@@ -144,14 +145,9 @@ void Render(GLFWwindow * window)
 
     float translationX = 0.f;
     float translationY = 0.f;
-    float translationZ = -30.f;
+    float translationZ = -100.0f;
 
-    const float translation[] = {
-        1.f, 0.f, 0.f, 0.f,
-        0.f, 1.f, 0.f, 0.f,
-        0.f, 0.f, 1.f, 0.f,
-        translationX, translationY, translationZ, 1.f
-    };
+    const float *translation = getTranslationMatrix(translationX, translationY, translationZ);
 
     GLint trans = glGetUniformLocation(program, "u_translation");
     glUniformMatrix4fv(trans, 1, false, translation);
