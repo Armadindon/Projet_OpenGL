@@ -1,4 +1,5 @@
 #include "Transform.h"
+
 #include "../common/toolsbox.h"
 #include "Matrix.h"
 
@@ -42,5 +43,6 @@ float* Transform::getWorldMatrix()
 	
 	MatrixMultiply((float(&)[16]) translationMatrix, (float(&)[16]) rotationMatrix, result);
 	MatrixMultiply(result, (float (&)[16]) scaleMatrix, result);
+	
 	return result;
 }

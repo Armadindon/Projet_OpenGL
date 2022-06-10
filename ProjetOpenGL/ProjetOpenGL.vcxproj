@@ -149,6 +149,7 @@
     <ClCompile Include="..\common\toolsbox.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="ProjetOpenGL.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="transform.fs" />
@@ -160,6 +161,7 @@
     <ClInclude Include="DragonData.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="stb\stb_image.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

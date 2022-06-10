@@ -16,6 +16,8 @@
 #include "Vertex.h"
 #include "DragonData.h"
 
+#include "Transform.h"
+
 
 // attention, ce define ne doit etre specifie que dans 1 seul fichier cpp
 #define STB_IMAGE_IMPLEMENTATION
@@ -28,6 +30,8 @@ GLuint IBO;
 GLuint VAO;
 
 GLuint TexID;
+
+Transform tf;
 
 
 
@@ -94,13 +98,8 @@ bool Initialise()
     glVertexAttribPointer(loc_uv, 2, GL_FLOAT
         , false, stride, (void*)offsetof(DragonVertex, uv));
 
-
-    
     //init de l'objet transform, pour créer la world matrix
-
-
-
-
+    tf = Transform::Transform({ 0.f,0.f,100.f}, {0.f,0.f,0.f}, {1.f,1.f,1.f});
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -156,10 +155,9 @@ void Render(GLFWwindow * window)
     float translationY = 0.f;
     float translationZ = -100.0f;
 
-    const float *translation = getTranslationMatrix(translationX, translationY, translationZ);
-
-    GLint trans = glGetUniformLocation(program, "u_translation");
-    glUniformMatrix4fv(trans, 1, false, translation);
+    
+    GLint transform = glGetUniformLocation(program, "u_transform");
+    glUniformMatrix4fv(transform, 1, false, tf.getWorldMatrix());
 
     glBindVertexArray(VAO);
 

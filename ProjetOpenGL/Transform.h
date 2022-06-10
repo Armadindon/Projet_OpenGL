@@ -1,12 +1,13 @@
 #pragma once
 
-typedef struct vec3 {
+
+typedef struct {
 	float x;
 	float y;
 	float z;
 } vec3;
 
-typedef struct vec4Rot {
+typedef struct {
 	float x;
 	float y;
 	float z;
