@@ -148,6 +148,7 @@
     <ClCompile Include="..\common\GLShader.cpp" />
     <ClCompile Include="..\common\toolsbox.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="ProjetOpenGL.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
@@ -160,8 +161,10 @@
     <ClInclude Include="..\common\toolsbox.h" />
     <ClInclude Include="DragonData.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Object3D.h" />
     <ClInclude Include="stb\stb_image.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

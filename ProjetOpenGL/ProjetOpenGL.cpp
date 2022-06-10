@@ -59,16 +59,18 @@ void loadTexFromFile(const char* filename) {
 
 bool Initialise()
 {
+
 	GLenum ret = glewInit();
 
+	// TODO : Début de la partie Initialisation Objet 3D
 	g_TransformShader.LoadVertexShader("transform.vs");
 	g_TransformShader.LoadFragmentShader("transform.fs");
 	g_TransformShader.Create();
 
 	//On active le test de profondeur et le face culling
+	// A ne pas intégrer dans les initialisations d'objets 3D
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-
 
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -102,6 +104,7 @@ bool Initialise()
 	//On initialise la position de base de l'objet
 	tf = Transform::Transform({ 0.f,0.f, -100.f }, { 0.f,0.f,0.f }, { 1.f,1.f,1.f });
 
+	// TODO : Fin de la partie Initialisation Objet 3D
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
