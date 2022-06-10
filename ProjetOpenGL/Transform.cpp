@@ -4,32 +4,32 @@
 #include "Matrix.h"
 #include <stdlib.h>
 
-void Transform::setTranslation(VEC3 translation)
+void Transform::setTranslation(vec3 translation)
 {
 	this->translation = translation;
 }
 
-VEC3 Transform::getTranslation()
+vec3 Transform::getTranslation()
 {
 	return this->translation;
 }
 
-void Transform::setRotation(VEC4ROT rotation)
+void Transform::setRotation(vec4Rot rotation)
 {
 	this->rotation = rotation;
 }
 
-VEC4ROT Transform::getRotation()
+vec4Rot Transform::getRotation()
 {
 	return this->rotation;
 }
 
-void Transform::setScale(VEC3 scale)
+void Transform::setScale(vec3 scale)
 {
 	this->scale = scale;
 }
 
-VEC3 Transform::getScale()
+vec3 Transform::getScale()
 {
 	return this->scale;
 }

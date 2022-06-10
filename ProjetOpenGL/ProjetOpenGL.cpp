@@ -79,7 +79,7 @@ bool Initialise()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(DragonIndices), DragonIndices, GL_STATIC_DRAW);
 
-	const size_t stride = sizeof(DragonVertex);
+	const size_t stride = sizeof(Vertex);
 
 	auto program = g_TransformShader.GetProgram();
 
@@ -92,12 +92,12 @@ bool Initialise()
 	int loc_position = glGetAttribLocation(program, "a_position");
 	glEnableVertexAttribArray(loc_position);
 	glVertexAttribPointer(loc_position, 3, GL_FLOAT
-		, false, stride, (void*)offsetof(DragonVertex, position));
+		, false, stride, (void*)offsetof(Vertex, position));
 
 	int loc_uv = glGetAttribLocation(program, "a_texcoords");
 	glEnableVertexAttribArray(loc_uv);
 	glVertexAttribPointer(loc_uv, 2, GL_FLOAT
-		, false, stride, (void*)offsetof(DragonVertex, uv));
+		, false, stride, (void*)offsetof(Vertex, uv));
 
 	//On initialise la position de base de l'objet
 	tf = Transform::Transform({ 0.f,0.f, -100.f }, { 0.f,0.f,0.f }, { 1.f,1.f,1.f });

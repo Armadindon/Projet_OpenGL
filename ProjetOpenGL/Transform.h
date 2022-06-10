@@ -1,40 +1,28 @@
 #pragma once
-
-typedef struct {
-	float x;
-	float y;
-	float z;
-} VEC3;
-
-typedef struct {
-	float x;
-	float y;
-	float z;
-	float theta;
-} VEC4ROT;
+#include "Vertex.h"
 
 class Transform {
 
 private:
 	// Vecteur 3
-	VEC3 translation;
+	vec3 translation;
 	// Vecteur 4
-	VEC4ROT rotation;
+	vec4Rot rotation;
 	// Vecteur 3
-	VEC3 scale;
+	vec3 scale;
 
 public:
 	Transform() : translation({ 0.f, 0.f, 0.f }), rotation({ 0.f, 0.f, 0.f, 0.f }), scale({ 1.f, 1.f, 1.f }) {}
-	Transform(VEC3 t, VEC4ROT r, VEC3 s) : translation(t), rotation(r), scale(s) {}
+	Transform(vec3 t, vec4Rot r, vec3 s) : translation(t), rotation(r), scale(s) {}
 
-	void setTranslation(VEC3 translation);
-	VEC3 getTranslation();
+	void setTranslation(vec3 translation);
+	vec3 getTranslation();
 
-	void setRotation(VEC4ROT rotation);
-	VEC4ROT getRotation();
+	void setRotation(vec4Rot rotation);
+	vec4Rot getRotation();
 
-	void setScale(VEC3 scale);
-	VEC3 getScale();
+	void setScale(vec3 scale);
+	vec3 getScale();
 
 	float* getWorldMatrix();
 };
