@@ -17,6 +17,7 @@
 #include "DragonData.h"
 
 #include "Transform.h"
+#include "../common/toolsbox.h"
 
 
 // attention, ce define ne doit etre specifie que dans 1 seul fichier cpp
@@ -36,172 +37,168 @@ Transform tf;
 
 
 void loadTexFromFile(const char* filename) {
-    //On initialise la texture
-    glGenTextures(1, &TexID);
-    glBindTexture(GL_TEXTURE_2D, TexID);
+	//On initialise la texture
+	glGenTextures(1, &TexID);
+	glBindTexture(GL_TEXTURE_2D, TexID);
 
-    // Filtrage bilineaire dans tous les cas (Minification et Magnification)
-    // les coordonnees de texture sont limitees a [0 ; 1[
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	// Filtrage bilineaire dans tous les cas (Minification et Magnification)
+	// les coordonnees de texture sont limitees a [0 ; 1[
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    int w, h;
-    uint8_t* data = stbi_load(filename, &w, &h, nullptr, STBI_rgb_alpha);
-    if (data) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        stbi_image_free(data);
-    }
+	int w, h;
+	uint8_t* data = stbi_load(filename, &w, &h, nullptr, STBI_rgb_alpha);
+	if (data) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		stbi_image_free(data);
+	}
 }
 
 bool Initialise()
 {
-    GLenum ret = glewInit();
+	GLenum ret = glewInit();
 
-    g_TransformShader.LoadVertexShader("transform.vs");
-    g_TransformShader.LoadFragmentShader("transform.fs");
-    g_TransformShader.Create();
+	g_TransformShader.LoadVertexShader("transform.vs");
+	g_TransformShader.LoadFragmentShader("transform.fs");
+	g_TransformShader.Create();
 
-    //On active le test de profondeur et le face culling
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+	//On active le test de profondeur et le face culling
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 
 
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER
-        , sizeof(DragonVertices), DragonVertices, GL_STATIC_DRAW);
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER
+		, sizeof(DragonVertices), DragonVertices, GL_STATIC_DRAW);
 
-    glGenBuffers(1, &IBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(DragonIndices), DragonIndices, GL_STATIC_DRAW);
-    
-    const size_t stride = sizeof(DragonVertex);
+	glGenBuffers(1, &IBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(DragonIndices), DragonIndices, GL_STATIC_DRAW);
 
-    auto program = g_TransformShader.GetProgram();
+	const size_t stride = sizeof(DragonVertex);
 
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
+	auto program = g_TransformShader.GetProgram();
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
 
-    int loc_position = glGetAttribLocation(program, "a_position");
-    glEnableVertexAttribArray(loc_position);
-    glVertexAttribPointer(loc_position, 3, GL_FLOAT
-        , false, stride, (void*)offsetof(DragonVertex, position));
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
-    int loc_uv = glGetAttribLocation(program, "a_texcoords");
-    glEnableVertexAttribArray(loc_uv);
-    glVertexAttribPointer(loc_uv, 2, GL_FLOAT
-        , false, stride, (void*)offsetof(DragonVertex, uv));
+	int loc_position = glGetAttribLocation(program, "a_position");
+	glEnableVertexAttribArray(loc_position);
+	glVertexAttribPointer(loc_position, 3, GL_FLOAT
+		, false, stride, (void*)offsetof(DragonVertex, position));
 
-    //init de l'objet transform, pour créer la world matrix
-    tf = Transform::Transform({ 0.f,0.f,100.f}, {0.f,0.f,0.f}, {1.f,1.f,1.f});
+	int loc_uv = glGetAttribLocation(program, "a_texcoords");
+	glEnableVertexAttribArray(loc_uv);
+	glVertexAttribPointer(loc_uv, 2, GL_FLOAT
+		, false, stride, (void*)offsetof(DragonVertex, uv));
 
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//On initialise la position de base de l'objet
+	tf = Transform::Transform({ 0.f,0.f, -100.f }, { 0.f,0.f,0.f }, { 1.f,1.f,1.f });
 
-    loadTexFromFile("dragon.png");
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    return true;
+	loadTexFromFile("dragon.png");
+
+	return true;
 }
 
 void Terminate()
 {
-    glDeleteTextures(1, &TexID);
+	glDeleteTextures(1, &TexID);
 
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
 
-    g_TransformShader.Destroy();
+	g_TransformShader.Destroy();
 }
 
-void Render(GLFWwindow * window)
+void Render(GLFWwindow* window)
 {
-    int width, height;
-    glfwGetWindowSize(window, &width, &height);
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
 
-    glViewport(0, 0, width, height);
-    glClearColor(0.5f, 0.5f, 0.5f, 1.f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    auto program = g_TransformShader.GetProgram();
-    glUseProgram(program);
+	glViewport(0, 0, width, height);
+	glClearColor(0.5f, 0.5f, 0.5f, 1.f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	auto program = g_TransformShader.GetProgram();
+	glUseProgram(program);
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, TexID);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, TexID);
 
-    GLint textureLocation = glGetUniformLocation(program, "u_sampler");
-    glUniform1i(textureLocation, 0);
+	GLint textureLocation = glGetUniformLocation(program, "u_sampler");
+	glUniform1i(textureLocation, 0);
 
-    const float zNear = 0.1f;
-    const float zFar = 100.0f;
-    const float aspect = float(width) / float(height);
-    const float fov = 45.0f * M_PI / 180.0f;
-    const float f = 1.0f / tanf(fov / 2.0f);
-    const float projection[] = {
-        f / aspect, 0.f, 0.f, 0.f,
-        0.f, f, 0.f, 0.f,
-        0.f, 0.f, ((zFar + zNear) / (zNear - zFar)), -1.f,
-        0.f, 0.f, ((2 * zNear * zFar) / (zNear - zFar)), 0.f
-    };
+	const float zNear = 0.1f;
+	const float zFar = 100.0f;
+	const float aspect = float(width) / float(height);
+	const float fov = 45.0f * M_PI / 180.0f;
+	const float f = 1.0f / tanf(fov / 2.0f);
+	const float projection[] = {
+		f / aspect, 0.f, 0.f, 0.f,
+		0.f, f, 0.f, 0.f,
+		0.f, 0.f, ((zFar + zNear) / (zNear - zFar)), -1.f,
+		0.f, 0.f, ((2 * zNear * zFar) / (zNear - zFar)), 0.f
+	};
 
-    GLint proj = glGetUniformLocation(program, "u_projection");
-    glUniformMatrix4fv(proj, 1, false, projection);
+	GLint proj = glGetUniformLocation(program, "u_projection");
+	glUniformMatrix4fv(proj, 1, false, projection);
 
-    float translationX = 0.f;
-    float translationY = 0.f;
-    float translationZ = -100.0f;
+	GLint position = glGetUniformLocation(program, "u_position");
+	float* worldPosition = tf.getWorldMatrix();
+	glUniformMatrix4fv(position, 1, false, worldPosition);
 
-    
-    GLint transform = glGetUniformLocation(program, "u_transform");
-    glUniformMatrix4fv(transform, 1, false, tf.getWorldMatrix());
+	glBindVertexArray(VAO);
 
-    glBindVertexArray(VAO);
-
-    glDrawElements(GL_TRIANGLES, _countof(DragonVertices), GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, _countof(DragonVertices), GL_UNSIGNED_SHORT, 0);
 
 }
 
 
 int main(void)
 {
-    GLFWwindow* window;
+	GLFWwindow* window;
 
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
+	/* Initialize the library */
+	if (!glfwInit())
+		return -1;
 
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Affichage 3D", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
+	/* Create a windowed mode window and its OpenGL context */
+	window = glfwCreateWindow(640, 480, "Affichage 3D", NULL, NULL);
+	if (!window)
+	{
+		glfwTerminate();
+		return -1;
+	}
 
-    /* Make the window's context current */
-    glfwMakeContextCurrent(window);
+	/* Make the window's context current */
+	glfwMakeContextCurrent(window);
 
-    Initialise();
+	Initialise();
 
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window))
-    {
-        /* Render here */
-        Render(window);
+	/* Loop until the user closes the window */
+	while (!glfwWindowShouldClose(window))
+	{
+		/* Render here */
+		Render(window);
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
+		/* Swap front and back buffers */
+		glfwSwapBuffers(window);
 
-        /* Poll for and process events */
-        glfwPollEvents();
-    }
+		/* Poll for and process events */
+		glfwPollEvents();
+	}
 
-    Terminate();
+	Terminate();
 
-    glfwTerminate();
-    return 0;
+	glfwTerminate();
+	return 0;
 }
