@@ -16,6 +16,7 @@
 #include "Vertex.h"
 #include "DragonData.h"
 
+
 // attention, ce define ne doit etre specifie que dans 1 seul fichier cpp
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
@@ -92,6 +93,14 @@ bool Initialise()
     glEnableVertexAttribArray(loc_uv);
     glVertexAttribPointer(loc_uv, 2, GL_FLOAT
         , false, stride, (void*)offsetof(DragonVertex, uv));
+
+
+    
+    //init de l'objet transform, pour créer la world matrix
+
+
+
+
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
