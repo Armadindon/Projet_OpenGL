@@ -1,6 +1,5 @@
 #pragma once
 
-#define TINYOBJLOADER_IMPLEMENTATION
 #define _USE_MATH_DEFINES
 
 #include "Vertex.h"
@@ -20,17 +19,18 @@ class Object3D
 {
 private:
 	//Render
-	GLuint VBO, IBO, VAO;
+	GLuint VBO, VAO;
 	GLShader shader;
 
 	//Data
 	Transform position;
 	std::vector<Vertex> vertices;
-	std::vector<Triangle> triangles;
 
 	void clear();
 
 public:
+	Object3D() : VAO(0), VBO(0) { };
+	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf);
 	void init();
 	void loadObjFile(const char* filePath, const char* materialFolder);
 	void render(GLFWwindow* window);
