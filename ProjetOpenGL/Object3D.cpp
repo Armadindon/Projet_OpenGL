@@ -5,11 +5,12 @@ void Object3D::clear() {
 	vertices.clear();
 }
 
-Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, float* color)
+Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight light, float* color)
 {
 	this->shader = shader;
 	this->position = tf;
 	this->color = color;
+	this->light = light;
 	loadObjFile(model, materialFolder);
 	init();
 }
@@ -175,6 +176,12 @@ void Object3D::render(GLFWwindow* window)
 
 	GLint colorLoc = glGetUniformLocation(program, "u_color");
 	glUniform4fv(colorLoc, 1, this->color);
+
+	GLint ambiantLightColor = glGetUniformLocation(program, "u_ambiantLightColor");
+	glUniform4fv(ambiantLightColor, 1, this->light.color);
+
+	GLint ambiantLightStrength = glGetUniformLocation(program, "u_ambiantLightStrength");
+	glUniform1f(ambiantLightStrength, this->light.ambiantStrength);
 
 	glBindVertexArray(VAO);
 

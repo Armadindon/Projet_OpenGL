@@ -6,5 +6,5 @@ uniform vec4 u_color;
 
 void main(void) {
     //Temporaire: On affiche le modèle en blanc
-    gl_FragColor = normalize(u_color);
+    gl_FragColor = u_color;
 }

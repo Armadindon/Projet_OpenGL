@@ -46,6 +46,9 @@
     <ClInclude Include="headers\Object3D.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Light.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">

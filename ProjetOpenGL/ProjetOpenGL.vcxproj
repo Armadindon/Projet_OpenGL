@@ -155,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="..\common\GLShader.h" />
     <ClInclude Include="..\common\toolsbox.h" />
+    <ClInclude Include="headers\Light.h" />
     <ClInclude Include="headers\Material.h" />
     <ClInclude Include="headers\Matrix.h" />
     <ClInclude Include="headers\Object3D.h" />

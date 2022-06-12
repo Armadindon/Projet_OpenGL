@@ -8,8 +8,10 @@ varying vec4 v_color;
 
 uniform sampler2D u_sampler;
 uniform vec4 u_color;
+uniform vec4 u_ambiantLightColor;
+uniform float u_ambiantLightStrength;
 
 void main(void) {
-    //Temporaire: On affiche le modèle en blanc
-    gl_FragColor = normalize(u_color);
+    vec4 ambiant = u_ambiantLightColor * u_ambiantLightStrength;
+    gl_FragColor = ambiant * u_color;
 }

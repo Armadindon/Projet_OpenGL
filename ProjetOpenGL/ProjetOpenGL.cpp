@@ -18,6 +18,7 @@
 #include "headers/Vertex.h"
 #include "headers/Transform.h"
 #include "headers/Object3D.h"
+#include "headers/Light.h"
 
 
 // attention, ce define ne doit etre specifie que dans 1 seul fichier cpp
@@ -33,9 +34,11 @@ Transform tf;
 
 Object3D cube, lightCube;
 //On les mets en variable globale car giga flemme de les mallocs
-float ligtCubeColor[] = { 255.f, 255.f, 255.f, 255.f };
-float cubeColor[] = { 252.f, 186.f, 3.f, 255.f };
+float ligtCubeColor[] = { 1.f, 1.f, 1.f, 1.f };
+float cubeColor[] = { 0.9882f, 0.7294f, 0.012f, 1.f };
 
+//Paramètres globaux
+AmbiantLight light = { { 1.f, 1.f, 1.f, 1.f }, 0.3f };
 
 void loadTexFromFile(const char* filename) {
 	//On initialise la texture
@@ -75,10 +78,10 @@ bool Initialise()
 	glEnable(GL_CULL_FACE);
 
 	Transform lightCubeTransform = Transform({ 2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ligtCubeColor);
+	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, light, ligtCubeColor);
 
 	Transform cubeTransform = Transform({ -2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, cubeColor);
+	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, light, cubeColor);
 
 	return true;
 }
