@@ -1,7 +1,6 @@
-#include "Transform.h"
-
+#include "headers/Transform.h"
+#include "headers/Matrix.h"
 #include "../common/toolsbox.h"
-#include "Matrix.h"
 #include <stdlib.h>
 
 void Transform::setTranslation(vec3 translation)

@@ -12,14 +12,12 @@
 #include <GLFW/glfw3.h>
 
 #include "../common/GLShader.h"
-#include "Matrix.h"
-
-#include "Vertex.h"
-#include "DragonData.h"
-
-#include "Transform.h"
 #include "../common/toolsbox.h"
-#include "Object3D.h"
+
+#include "headers/Matrix.h"
+#include "headers/Vertex.h"
+#include "headers/Transform.h"
+#include "headers/Object3D.h"
 
 
 // attention, ce define ne doit etre specifie que dans 1 seul fichier cpp
@@ -64,12 +62,12 @@ bool Initialise()
 {
 	GLenum ret = glewInit();
 
-	modelShader.LoadVertexShader("3DModel.vertex");
-	modelShader.LoadFragmentShader("3DModel.fragment");
+	modelShader.LoadVertexShader("shaders/3DModel.vertex");
+	modelShader.LoadFragmentShader("shaders/3DModel.fragment");
 	modelShader.Create();
 
-	lightShader.LoadVertexShader("LightShader.vertex");
-	lightShader.LoadFragmentShader("LightShader.fragment");
+	lightShader.LoadVertexShader("shaders/LightShader.vertex");
+	lightShader.LoadFragmentShader("shaders/LightShader.fragment");
 	lightShader.Create();
 
 	//On active le test de profondeur et le face culling

@@ -6,8 +6,8 @@
 #include "Triangle.h"
 #include "Transform.h"
 #include "GL/glew.h"
-#include "../common/GLShader.h"
-#include "../common/tiny_obj_loader.h"
+#include "../../common/GLShader.h"
+#include "../../common/tiny_obj_loader.h"
 #include "Material.h"
 
 #include <GLFW/glfw3.h>

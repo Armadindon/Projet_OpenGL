@@ -153,25 +153,21 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="3DModel.fragment" />
-    <None Include="3DModel.vertex" />
-    <None Include="LightShader.fragment" />
-    <None Include="LightShader.vertex" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\common\GLShader.h" />
     <ClInclude Include="..\common\toolsbox.h" />
-    <ClInclude Include="DragonData.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Object3D.h" />
+    <ClInclude Include="headers\Material.h" />
+    <ClInclude Include="headers\Matrix.h" />
+    <ClInclude Include="headers\Object3D.h" />
+    <ClInclude Include="headers\Transform.h" />
+    <ClInclude Include="headers\Triangle.h" />
+    <ClInclude Include="headers\Vertex.h" />
     <ClInclude Include="stb\stb_image.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Triangle.h" />
-    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="dragon.png" />
+    <None Include="shaders\3DModel.fragment" />
+    <None Include="shaders\3DModel.vertex" />
+    <None Include="shaders\LightShader.fragment" />
+    <None Include="shaders\LightShader.vertex" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
