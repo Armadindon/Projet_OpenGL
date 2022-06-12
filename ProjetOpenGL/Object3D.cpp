@@ -58,8 +58,15 @@ void Object3D::loadObjFile(const char* filePath, const char* materialFolder)
 			});
 	}
 
-	//TODO: Récupérer les materials
-
+	std::vector<Material> materialList;
+	for (auto material = materials.begin(); material < materials.end(); ++material) {
+		materialList.push_back({
+			*material->ambient,
+			*material->diffuse,
+			*material->specular,
+			material->shininess,
+			});
+	}
 
 	//On load ensuite les faces et on constitue le tableau des vertices
 	std::vector<Triangle> triangles;
@@ -91,7 +98,8 @@ void Object3D::loadObjFile(const char* filePath, const char* materialFolder)
 			this->vertices.push_back({
 			{vertices[vertexIndices[i]].x, vertices[vertexIndices[i]].y, vertices[vertexIndices[i]].z },
 			{normals[normalIndices[i]].x, normals[normalIndices[i]].y, normals[normalIndices[i]].z },
-			{uv[uvIndices[i]].x, uv[uvIndices[i]].y}
+			{uv[uvIndices[i]].x, uv[uvIndices[i]].y},
+			materialList[materialIndice]
 				});
 
 			//TODO: Gestion des indices par la gestion des doublons dans les vertexs

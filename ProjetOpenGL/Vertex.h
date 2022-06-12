@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Material.h"
+
 #include <cstdint>
 
 struct vec2 {
@@ -27,4 +29,5 @@ struct Vertex
 	float position[3]; // x, y, z 
 	float normal[3]; // nx, ny, ny
 	float uv[2]; // u, v
+	Material mat;
 };

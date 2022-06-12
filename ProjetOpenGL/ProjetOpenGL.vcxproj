@@ -160,6 +160,7 @@
     <ClInclude Include="..\common\GLShader.h" />
     <ClInclude Include="..\common\toolsbox.h" />
     <ClInclude Include="DragonData.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="stb\stb_image.h" />
