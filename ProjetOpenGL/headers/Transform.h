@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef Transform_H
+#define Transform_H
+
 #include "Vertex.h"
 
 class Transform {
@@ -26,3 +30,5 @@ public:
 
 	float* getWorldMatrix();
 };
+
+#endif

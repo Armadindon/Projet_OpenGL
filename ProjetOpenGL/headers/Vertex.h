@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef Vertex_H
+#define Vertex_H
+
 #include "Material.h"
 
 #include <cstdint>
@@ -31,3 +34,5 @@ struct Vertex
 	float uv[2]; // u, v
 	Material mat;
 };
+
+#endif

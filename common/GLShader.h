@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef GLShader_H
+#define GLShader_H
+
 #include <cstdint>
 
 class GLShader
@@ -17,10 +20,7 @@ private:
 
 	bool CompileShader(uint32_t type);
 public:
-	GLShader() : m_Program(0), m_VertexShader(0),
-		m_GeometryShader(0), m_FragmentShader(0) {
-
-	}
+	GLShader() : m_Program(0), m_VertexShader(0), m_GeometryShader(0), m_FragmentShader(0) {}
 	~GLShader() {}
 
 	inline uint32_t GetProgram() { return m_Program; }
@@ -31,3 +31,5 @@ public:
 	bool Create();
 	void Destroy();
 };
+
+#endif

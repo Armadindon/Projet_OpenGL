@@ -5,13 +5,28 @@
 //TODO: Gestion materiaux et textures
 varying vec2 v_texcoords;
 varying vec4 v_color;
+varying vec3 v_normal;
+varying vec3 v_fragPos;
 
 uniform sampler2D u_sampler;
 uniform vec4 u_color;
+
+//ambiant lighting
 uniform vec4 u_ambiantLightColor;
 uniform float u_ambiantLightStrength;
 
+//difuse lighting
+uniform vec3 u_lightPos;
+
 void main(void) {
+    vec3 norm = normalize(v_normal);
+    vec3 lightDir = normalize(u_lightPos - v_fragPos);
+    float diff = max(dot(norm, lightDir), 0.0);
+    //Todo: Définir la couleur de la diffuse light
+    vec4 diffuse = diff * u_ambiantLightColor;
+
     vec4 ambiant = u_ambiantLightColor * u_ambiantLightStrength;
-    gl_FragColor = ambiant * u_color;
+
+
+    gl_FragColor = (ambiant + diffuse) * u_color;
 }

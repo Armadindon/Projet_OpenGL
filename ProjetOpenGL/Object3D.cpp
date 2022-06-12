@@ -1,16 +1,18 @@
 #include "headers/Object3D.h"
 
 
+
 void Object3D::clear() {
 	vertices.clear();
 }
 
-Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight light, float* color)
+Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, float* color)
 {
 	this->shader = shader;
 	this->position = tf;
 	this->color = color;
-	this->light = light;
+	this->ambiantLight = ambiantLight;
+	this->diffuseLight = diffuseLight;
 	loadObjFile(model, materialFolder);
 	init();
 }
@@ -138,6 +140,11 @@ void Object3D::init()
 	glVertexAttribPointer(loc_position, 3, GL_FLOAT
 		, false, stride, (void*)offsetof(Vertex, position));
 
+	int loc_normal = glGetAttribLocation(program, "a_normal");
+	glEnableVertexAttribArray(loc_normal);
+	glVertexAttribPointer(loc_normal, 3, GL_FLOAT
+		, false, stride, (void*)offsetof(Vertex, normal));
+
 	int loc_uv = glGetAttribLocation(program, "a_texcoords");
 	glEnableVertexAttribArray(loc_uv);
 	glVertexAttribPointer(loc_uv, 2, GL_FLOAT
@@ -174,14 +181,25 @@ void Object3D::render(GLFWwindow* window)
 	float* worldPosition = this->position.getWorldMatrix();
 	glUniformMatrix4fv(position, 1, false, worldPosition);
 
+	//Calcul de la matrice inverse
+	//GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
+	//float* inversedWorldMatrix = (float*) malloc(sizeof(float) * 16);
+	//float* normalMatrix = (float*) malloc(sizeof(float) * 16);
+	//inverse(worldPosition, inversedWorldMatrix);
+	//MatrixTranspose(inversedWorldMatrix, normalMatrix);
+	//glUniformMatrix4fv(normalMatrixLoc, 1, false, normalMatrix);
+
 	GLint colorLoc = glGetUniformLocation(program, "u_color");
 	glUniform4fv(colorLoc, 1, this->color);
 
 	GLint ambiantLightColor = glGetUniformLocation(program, "u_ambiantLightColor");
-	glUniform4fv(ambiantLightColor, 1, this->light.color);
+	glUniform4fv(ambiantLightColor, 1, this->ambiantLight.color);
 
 	GLint ambiantLightStrength = glGetUniformLocation(program, "u_ambiantLightStrength");
-	glUniform1f(ambiantLightStrength, this->light.ambiantStrength);
+	glUniform1f(ambiantLightStrength, this->ambiantLight.ambiantStrength);
+
+	GLint diffuseLightPos = glGetUniformLocation(program, "u_lightPos");
+	glUniform3fv(diffuseLightPos, 1, this->diffuseLight.position);
 
 	glBindVertexArray(VAO);
 

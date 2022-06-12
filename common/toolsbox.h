@@ -1,4 +1,6 @@
 #pragma once
+#ifndef Toolbox_H
+#define Toolbox_H
 
 #include <cstdint>
 
@@ -8,3 +10,5 @@ float MatrixDet4(const float *Matrix);
 float MatrixDet3(const float* Matrix);
 bool inverse(const float* MatrixIn, const float* MatrixOut);
 bool convert(const float* MatrixIn, const float* MatrixOut);
+
+#endif

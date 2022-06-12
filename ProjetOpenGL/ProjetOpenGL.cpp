@@ -12,7 +12,6 @@
 #include <GLFW/glfw3.h>
 
 #include "../common/GLShader.h"
-#include "../common/toolsbox.h"
 
 #include "headers/Matrix.h"
 #include "headers/Vertex.h"
@@ -33,12 +32,17 @@ GLuint TexID;
 Transform tf;
 
 Object3D cube, lightCube;
-//On les mets en variable globale car giga flemme de les mallocs
+
+//Paramètres globaux
 float ligtCubeColor[] = { 1.f, 1.f, 1.f, 1.f };
 float cubeColor[] = { 0.9882f, 0.7294f, 0.012f, 1.f };
 
-//Paramètres globaux
-AmbiantLight light = { { 1.f, 1.f, 1.f, 1.f }, 0.3f };
+float lightPose[] = { 2.5f, 0.f, -10.f };
+
+AmbiantLight ambiantLight = { { 1.f, 1.f, 1.f, 1.f }, 0.3f };
+//Pour le moment, on ne gère qu'une diffuse light
+DiffuseLight diffuseLight = { {lightPose[0], lightPose[1], lightPose[2]} };
+
 
 void loadTexFromFile(const char* filename) {
 	//On initialise la texture
@@ -77,11 +81,11 @@ bool Initialise()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	Transform lightCubeTransform = Transform({ 2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, light, ligtCubeColor);
+	Transform lightCubeTransform = Transform({ lightPose[0], lightPose[1], lightPose[2] }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
+	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, ligtCubeColor);
 
 	Transform cubeTransform = Transform({ -2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, light, cubeColor);
+	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, cubeColor);
 
 	return true;
 }

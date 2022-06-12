@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef Triangle_H
+#define Triangle_H
+
 struct Triangle {
 	//Index des vertices
 	int vertices[3];
@@ -10,3 +13,5 @@ struct Triangle {
 	//Index du material (TODO)
 	int material;
 };
+
+#endif

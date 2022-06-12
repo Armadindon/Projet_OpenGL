@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef Object3D_H
+#define Object3D_H
+
 #define _USE_MATH_DEFINES
 
 #include "Vertex.h"
@@ -8,12 +11,13 @@
 #include "GL/glew.h"
 #include "../../common/GLShader.h"
 #include "../../common/tiny_obj_loader.h"
+#include "../../common/toolsbox.h"
 #include "Material.h"
 #include "Light.h"
 
 #include <GLFW/glfw3.h>
-#include <stdlib.h>
 #include <vector>
+#include <stdlib.h>
 #include <math.h>
 #include <iostream>
 
@@ -28,15 +32,17 @@ private:
 	Transform position;
 	std::vector<Vertex> vertices;
 	float *color;
-	AmbiantLight light;
+	AmbiantLight ambiantLight;
+	DiffuseLight diffuseLight;
 
 	void clear();
 
 public:
 	Object3D() : VAO(0), VBO(0) { };
-	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight light, float *color);
+	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, float *color);
 	void init();
 	void loadObjFile(const char* filePath, const char* materialFolder);
 	void render(GLFWwindow* window);
 };
 
+#endif
