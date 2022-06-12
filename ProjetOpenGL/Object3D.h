@@ -26,12 +26,13 @@ private:
 	//Data
 	Transform position;
 	std::vector<Vertex> vertices;
+	float *color;
 
 	void clear();
 
 public:
 	Object3D() : VAO(0), VBO(0) { };
-	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf);
+	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, float *color);
 	void init();
 	void loadObjFile(const char* filePath, const char* materialFolder);
 	void render(GLFWwindow* window);

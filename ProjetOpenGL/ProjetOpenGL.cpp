@@ -26,13 +26,17 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
-GLShader g_TransformShader;
+GLShader modelShader, lightShader;
+
 
 GLuint TexID;
 
 Transform tf;
 
-Object3D cube;
+Object3D cube, lightCube;
+//On les mets en variable globale car giga flemme de les mallocs
+float ligtCubeColor[] = { 252.f, 186.f, 3.f, 255.f };
+float cubeColor[] = { 252.f, 186.f, 3.f, 255.f };
 
 
 void loadTexFromFile(const char* filename) {
@@ -60,16 +64,23 @@ bool Initialise()
 {
 	GLenum ret = glewInit();
 
-	g_TransformShader.LoadVertexShader("transform.vs");
-	g_TransformShader.LoadFragmentShader("transform.fs");
-	g_TransformShader.Create();
+	modelShader.LoadVertexShader("3DModel.vertex");
+	modelShader.LoadFragmentShader("3DModel.fragment");
+	modelShader.Create();
+
+	lightShader.LoadVertexShader("LightShader.vertex");
+	lightShader.LoadFragmentShader("LightShader.fragment");
+	lightShader.Create();
 
 	//On active le test de profondeur et le face culling
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	Transform cubeTransform = Transform({ 0.f, 0.f, -5.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	cube = Object3D("../models/cube/cube.obj", "../models/cube", g_TransformShader, cubeTransform);
+	Transform lightCubeTransform = Transform({ 2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
+	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ligtCubeColor);
+
+	Transform cubeTransform = Transform({ -2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
+	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, cubeColor);
 
 	return true;
 }
@@ -78,7 +89,8 @@ void Terminate()
 {
 	glDeleteTextures(1, &TexID);
 
-	g_TransformShader.Destroy();
+	modelShader.Destroy();
+	lightShader.Destroy();
 }
 
 void Render(GLFWwindow* window)
@@ -90,6 +102,7 @@ void Render(GLFWwindow* window)
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	lightCube.render(window);
 	cube.render(window);
 }
 

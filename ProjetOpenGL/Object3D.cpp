@@ -5,10 +5,11 @@ void Object3D::clear() {
 	vertices.clear();
 }
 
-Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf)
+Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, float* color)
 {
 	this->shader = shader;
 	this->position = tf;
+	this->color = color;
 	loadObjFile(model, materialFolder);
 	init();
 }
@@ -117,6 +118,7 @@ void Object3D::init()
 	// TODO : Gestion des textures et des materiaux
 
 	// Création du VAO
+	// TODO: N'utiliser un seul VAO pour tous les objets de la scène (changement de VAO couteux)
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
@@ -170,6 +172,14 @@ void Object3D::render(GLFWwindow* window)
 	GLint position = glGetUniformLocation(program, "u_position");
 	float* worldPosition = this->position.getWorldMatrix();
 	glUniformMatrix4fv(position, 1, false, worldPosition);
+
+	for (int i = 0; i < 4; i++) {
+		float var = this->color[i];
+		std::cout << "Color (" << i << ") : " << this->color[i] << " ;" << std::endl;
+	}
+
+	GLint colorLoc = glGetUniformLocation(program, "u_color");
+	glUniform4fv(colorLoc, 1, this->color);
 
 	glBindVertexArray(VAO);
 

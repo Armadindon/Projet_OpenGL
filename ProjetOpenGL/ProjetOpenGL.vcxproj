@@ -153,8 +153,10 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="transform.fs" />
-    <None Include="transform.vs" />
+    <None Include="3DModel.fragment" />
+    <None Include="3DModel.vertex" />
+    <None Include="LightShader.fragment" />
+    <None Include="LightShader.vertex" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\GLShader.h" />
