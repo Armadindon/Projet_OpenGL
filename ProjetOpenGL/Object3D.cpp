@@ -173,11 +173,6 @@ void Object3D::render(GLFWwindow* window)
 	float* worldPosition = this->position.getWorldMatrix();
 	glUniformMatrix4fv(position, 1, false, worldPosition);
 
-	for (int i = 0; i < 4; i++) {
-		float var = this->color[i];
-		std::cout << "Color (" << i << ") : " << this->color[i] << " ;" << std::endl;
-	}
-
 	GLint colorLoc = glGetUniformLocation(program, "u_color");
 	glUniform4fv(colorLoc, 1, this->color);
 

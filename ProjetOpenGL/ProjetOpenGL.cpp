@@ -33,7 +33,7 @@ Transform tf;
 
 Object3D cube, lightCube;
 //On les mets en variable globale car giga flemme de les mallocs
-float ligtCubeColor[] = { 252.f, 186.f, 3.f, 255.f };
+float ligtCubeColor[] = { 255.f, 255.f, 255.f, 255.f };
 float cubeColor[] = { 252.f, 186.f, 3.f, 255.f };
 
 
