@@ -182,12 +182,12 @@ void Object3D::render(GLFWwindow* window)
 	glUniformMatrix4fv(position, 1, false, worldPosition);
 
 	//Calcul de la matrice inverse
-	//GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
-	//float* inversedWorldMatrix = (float*) malloc(sizeof(float) * 16);
-	//float* normalMatrix = (float*) malloc(sizeof(float) * 16);
-	//inverse(worldPosition, inversedWorldMatrix);
-	//MatrixTranspose(inversedWorldMatrix, normalMatrix);
-	//glUniformMatrix4fv(normalMatrixLoc, 1, false, normalMatrix);
+	GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
+	float* inversedWorldMatrix = (float*) malloc(sizeof(float) * 16);
+	float* normalMatrix = (float*) malloc(sizeof(float) * 16);
+	inverse(worldPosition, inversedWorldMatrix);
+	MatrixTranspose(inversedWorldMatrix, normalMatrix);
+	glUniformMatrix4fv(normalMatrixLoc, 1, false, normalMatrix);
 
 	GLint colorLoc = glGetUniformLocation(program, "u_color");
 	glUniform4fv(colorLoc, 1, this->color);
