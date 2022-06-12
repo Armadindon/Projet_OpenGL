@@ -65,16 +65,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\3DModel.fragment">
+    <None Include="shaders\3DModel.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\3DModel.vertex">
+    <None Include="shaders\3DModel.vert">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\LightShader.fragment">
+    <None Include="shaders\LightShader.frag">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shaders\LightShader.vertex">
+    <None Include="shaders\LightShader.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

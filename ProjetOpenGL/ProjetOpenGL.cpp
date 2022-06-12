@@ -37,7 +37,7 @@ Object3D cube, lightCube;
 float ligtCubeColor[] = { 1.f, 1.f, 1.f, 1.f };
 float cubeColor[] = { 0.9882f, 0.7294f, 0.012f, 1.f };
 
-float lightPose[] = { 1.f, 0.f, -7.f };
+float lightPose[] = { 0.f, 0.f, -10.f };
 
 AmbiantLight ambiantLight = { { 1.f, 1.f, 1.f, 1.f }, 0.3f };
 //Pour le moment, on ne gère qu'une diffuse light
@@ -71,12 +71,12 @@ bool Initialise()
 {
 	GLenum ret = glewInit();
 
-	modelShader.LoadVertexShader("shaders/3DModel.vertex");
-	modelShader.LoadFragmentShader("shaders/3DModel.fragment");
+	modelShader.LoadVertexShader("shaders/3DModel.vert");
+	modelShader.LoadFragmentShader("shaders/3DModel.frag");
 	modelShader.Create();
 
-	lightShader.LoadVertexShader("shaders/LightShader.vertex");
-	lightShader.LoadFragmentShader("shaders/LightShader.fragment");
+	lightShader.LoadVertexShader("shaders/LightShader.vert");
+	lightShader.LoadFragmentShader("shaders/LightShader.frag");
 	lightShader.Create();
 
 	//On active le test de profondeur et le face culling
