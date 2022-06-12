@@ -6,13 +6,14 @@ void Object3D::clear() {
 	vertices.clear();
 }
 
-Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, float* color)
+Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float* color)
 {
 	this->shader = shader;
 	this->position = tf;
 	this->color = color;
 	this->ambiantLight = ambiantLight;
 	this->diffuseLight = diffuseLight;
+	this->specularLight = specularLight;
 	loadObjFile(model, materialFolder);
 	init();
 }
@@ -134,7 +135,6 @@ void Object3D::init()
 	//TODO: Recreer l'IBO
 
 	// Passage des attributs de shader
-	// TODO: Gérer les normales
 	int loc_position = glGetAttribLocation(program, "a_position");
 	glEnableVertexAttribArray(loc_position);
 	glVertexAttribPointer(loc_position, 3, GL_FLOAT
@@ -200,6 +200,9 @@ void Object3D::render(GLFWwindow* window)
 
 	GLint diffuseLightPos = glGetUniformLocation(program, "u_lightPos");
 	glUniform3fv(diffuseLightPos, 1, this->diffuseLight.position);
+
+	GLint specularLightStrength = glGetUniformLocation(program, "u_specularLightStrength");
+	glUniform1f(specularLightStrength, this->specularLight.specularStrength);
 
 	glBindVertexArray(VAO);
 

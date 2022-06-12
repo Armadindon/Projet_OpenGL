@@ -10,6 +10,9 @@ varying vec3 v_fragPos;
 
 uniform sampler2D u_sampler;
 uniform vec4 u_color;
+//TODO: Mettre en place la matrice vue / caméra et supprimer la première ligne
+vec3 u_view = vec3(0, 0, 0);
+//uniform vec3 u_view;
 
 //ambiant lighting
 uniform vec4 u_ambiantLightColor;
@@ -17,6 +20,10 @@ uniform float u_ambiantLightStrength;
 
 //difuse lighting
 uniform vec3 u_lightPos;
+
+//specular lighting
+uniform float u_specularLightStrength;
+
 
 void main(void) {
     vec3 norm = normalize(v_normal);
@@ -27,6 +34,10 @@ void main(void) {
 
     vec4 ambiant = u_ambiantLightColor * u_ambiantLightStrength;
 
+    vec3 viewDir = normalize(u_view - v_fragPos);
+    vec3 reflectDir = reflect(-lightDir, norm);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    vec4 specular = u_specularLightStrength * spec * u_ambiantLightColor;  
 
-    gl_FragColor = (ambiant + diffuse) * u_color;
+    gl_FragColor = (ambiant + diffuse + specular) * u_color;
 }

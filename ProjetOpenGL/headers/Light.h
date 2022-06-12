@@ -12,4 +12,8 @@ typedef struct {
 	float position[3];
 } DiffuseLight;
 
+typedef struct {
+	float specularStrength;
+} SpecularLight;
+
 #endif 

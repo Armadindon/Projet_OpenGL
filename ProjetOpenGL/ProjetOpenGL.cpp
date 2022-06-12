@@ -37,11 +37,13 @@ Object3D cube, lightCube;
 float ligtCubeColor[] = { 1.f, 1.f, 1.f, 1.f };
 float cubeColor[] = { 0.9882f, 0.7294f, 0.012f, 1.f };
 
-float lightPose[] = { 2.5f, 0.f, -10.f };
+float lightPose[] = { 1.f, 0.f, -7.f };
 
 AmbiantLight ambiantLight = { { 1.f, 1.f, 1.f, 1.f }, 0.3f };
 //Pour le moment, on ne gère qu'une diffuse light
 DiffuseLight diffuseLight = { {lightPose[0], lightPose[1], lightPose[2]} };
+
+SpecularLight specularLight = { 1.f };
 
 
 void loadTexFromFile(const char* filename) {
@@ -82,10 +84,10 @@ bool Initialise()
 	glEnable(GL_CULL_FACE);
 
 	Transform lightCubeTransform = Transform({ lightPose[0], lightPose[1], lightPose[2] }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, ligtCubeColor);
+	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, specularLight, ligtCubeColor);
 
 	Transform cubeTransform = Transform({ -2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, cubeColor);
+	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, cubeColor);
 
 	return true;
 }
