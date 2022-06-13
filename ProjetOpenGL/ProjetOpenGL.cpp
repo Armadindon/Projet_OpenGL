@@ -31,11 +31,11 @@ GLuint TexID;
 
 Transform tf;
 
-Object3D cube, lightCube;
+Object3D sphere, lightCube;
 
 //Paramètres globaux
 float ligtCubeColor[] = { 1.f, 1.f, 1.f, 1.f };
-float cubeColor[] = { 0.9882f, 0.7294f, 0.012f, 1.f };
+float sphereColor[] = { 0.9882f, 0.7294f, 0.012f, 1.f };
 
 float lightPose[] = { 0.f, 0.f, -10.f };
 
@@ -87,7 +87,7 @@ bool Initialise()
 	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, specularLight, ligtCubeColor);
 
 	Transform cubeTransform = Transform({ -2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, cubeColor);
+	sphere = Object3D("../models/sphere/sphere.obj", "../models/sphere", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, sphereColor);
 
 	return true;
 }
@@ -110,7 +110,7 @@ void Render(GLFWwindow* window)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	lightCube.render(window);
-	cube.render(window);
+	sphere.render(window);
 }
 
 
