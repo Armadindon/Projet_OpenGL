@@ -33,6 +33,8 @@ Transform tf;
 
 Object3D sphere, lightCube, cube;
 
+Camera mainCam;
+
 //Paramètres globaux
 float ligtCubeColor[] = { 1.f, 1.f, 1.f, 1.f };
 float sphereColor[] = { 0.9882f, 0.7294f, 0.012f, 1.f };
@@ -84,14 +86,16 @@ bool Initialise()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
+	mainCam = Camera({ 0.f, 0.f, 0.f }, { 0.f, 0.f, -1.f }, { 0.f, 1.f, 0.f }, { 0.f, 0.f, 0.f });
+
 	Transform lightCubeTransform = Transform({ lightPose[0], lightPose[1], lightPose[2] }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, specularLight, ligtCubeColor);
+	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, specularLight, ligtCubeColor, mainCam);
 
 	Transform sphereTransform = Transform({ -2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	sphere = Object3D("../models/sphere/sphere.obj", "../models/sphere", modelShader, sphereTransform, ambiantLight, diffuseLight, specularLight, sphereColor);
+	sphere = Object3D("../models/sphere/sphere.obj", "../models/sphere", modelShader, sphereTransform, ambiantLight, diffuseLight, specularLight, sphereColor, mainCam);
 
 	Transform cubeTransform = Transform({ 2.5f, 0.f, -12.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, cubeColor);
+	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, cubeColor, mainCam);
 
 	return true;
 }

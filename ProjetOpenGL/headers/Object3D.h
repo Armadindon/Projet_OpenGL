@@ -14,6 +14,7 @@
 #include "../../common/toolsbox.h"
 #include "Material.h"
 #include "Light.h"
+#include "Camera.h"
 
 #include <GLFW/glfw3.h>
 #include <vector>
@@ -36,12 +37,13 @@ private:
 	DiffuseLight diffuseLight;
 	SpecularLight specularLight;
 	Material mat;
+	Camera camera;
 
 	void clear();
 
 public:
 	Object3D() : VAO(0), VBO(0) { };
-	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float *color);
+	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float *color, Camera cam);
 	void init();
 	void loadObjFile(const char* filePath, const char* materialFolder);
 	void render(GLFWwindow* window);

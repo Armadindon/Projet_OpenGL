@@ -1,12 +1,12 @@
 #include "headers/Object3D.h"
-
+#include "headers/Camera.h"
 
 
 void Object3D::clear() {
 	vertices.clear();
 }
 
-Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float* color)
+Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float* color, Camera cam)
 {
 	this->shader = shader;
 	this->position = tf;
@@ -14,6 +14,7 @@ Object3D::Object3D(const char* model, const char* materialFolder, GLShader shade
 	this->ambiantLight = ambiantLight;
 	this->diffuseLight = diffuseLight;
 	this->specularLight = specularLight;
+	this->camera = cam;
 	loadObjFile(model, materialFolder);
 	init();
 }
@@ -183,6 +184,10 @@ void Object3D::render(GLFWwindow* window)
 	GLint position = glGetUniformLocation(program, "u_position");
 	float* worldPosition = this->position.getWorldMatrix();
 	glUniformMatrix4fv(position, 1, false, worldPosition);
+
+	GLint camera = glGetUniformLocation(program, "u_view");
+	float* view = this->camera.getViewMatrix();
+	glUniformMatrix4fv(camera, 1, false, view);
 
 	//Calcul de la matrice inverse
 	GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");

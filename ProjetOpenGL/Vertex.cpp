@@ -4,7 +4,7 @@
 vec3 normalize(vec3 vec) {
 	float abs = sqrtf((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z));
 
-	return vec3({vec.x/abs, vec.y/abs, vec.z/abs});
+	return {vec.x/abs, vec.y/abs, vec.z/abs};
 }
 
 float dot(vec3 a, vec3 b) {

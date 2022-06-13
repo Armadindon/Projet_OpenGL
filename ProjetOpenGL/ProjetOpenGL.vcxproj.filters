@@ -17,6 +17,12 @@
     <ClCompile Include="Matrix.cpp">
       <Filter>implementations</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Vertex.h">
@@ -47,6 +53,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="headers\Light.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Camera.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

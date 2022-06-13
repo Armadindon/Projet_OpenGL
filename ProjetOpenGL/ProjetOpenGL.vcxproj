@@ -147,14 +147,17 @@
   <ItemGroup>
     <ClCompile Include="..\common\GLShader.cpp" />
     <ClCompile Include="..\common\toolsbox.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="ProjetOpenGL.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\GLShader.h" />
     <ClInclude Include="..\common\toolsbox.h" />
+    <ClInclude Include="headers\Camera.h" />
     <ClInclude Include="headers\Light.h" />
     <ClInclude Include="headers\Material.h" />
     <ClInclude Include="headers\Matrix.h" />

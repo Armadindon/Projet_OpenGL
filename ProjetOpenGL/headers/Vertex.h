@@ -7,32 +7,32 @@
 
 #include <cstdint>
 
-struct vec2 {
+typedef struct {
 	float x, y;
-};
+} vec2;
 
-struct vec3 {
+typedef struct {
 	float x, y, z;
-};
+} vec3;
 
-struct vec4Rot {
+typedef struct {
 	float x;
 	float y;
 	float z;
 	float theta;
-};
+} vec4Rot;
 
-struct Color {
+typedef struct {
 	uint8_t r, g, b, a;
-};
+} Color;
 
 /* Struct Utilitaire pour un vecteur 4 représentant une rotation */
-struct Vertex
+typedef struct 
 {
 	float position[3]; // x, y, z 
 	float normal[3]; // nx, ny, ny
 	float uv[2]; // u, v
-};
+} Vertex;
 
 vec3 cross(vec3 a, vec3 b);
 float dot(vec3 a, vec3 b);
