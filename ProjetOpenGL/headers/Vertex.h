@@ -34,4 +34,8 @@ struct Vertex
 	float uv[2]; // u, v
 };
 
+vec3 cross(vec3 a, vec3 b);
+float dot(vec3 a, vec3 b);
+vec3 normalize(vec3 vec);
+
 #endif
