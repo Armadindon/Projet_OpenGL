@@ -73,6 +73,10 @@ void Object3D::loadObjFile(const char* filePath, const char* materialFolder)
 			});
 	}
 
+	//Pour simplifier, on considère qu'il n'y a qu'un seul material par objet
+	//TODO: Possibilité d'ajouter un material par vertex
+	this->mat = materialList[0];
+
 	//On load ensuite les faces et on constitue le tableau des vertices
 	std::vector<Triangle> triangles;
 
@@ -103,8 +107,7 @@ void Object3D::loadObjFile(const char* filePath, const char* materialFolder)
 			this->vertices.push_back({
 			{vertices[vertexIndices[i]].x, vertices[vertexIndices[i]].y, vertices[vertexIndices[i]].z },
 			{normals[normalIndices[i]].x, normals[normalIndices[i]].y, normals[normalIndices[i]].z },
-			{uv[uvIndices[i]].x, uv[uvIndices[i]].y},
-			materialList[materialIndice]
+			{uv[uvIndices[i]].x, uv[uvIndices[i]].y}
 				});
 
 			//TODO: Gestion des indices par la gestion des doublons dans les vertexs
@@ -183,8 +186,8 @@ void Object3D::render(GLFWwindow* window)
 
 	//Calcul de la matrice inverse
 	GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
-	float* inversedWorldMatrix = (float*) malloc(sizeof(float) * 16);
-	float* normalMatrix = (float*) malloc(sizeof(float) * 16);
+	float* inversedWorldMatrix = (float*)malloc(sizeof(float) * 16);
+	float* normalMatrix = (float*)malloc(sizeof(float) * 16);
 	inverse(worldPosition, inversedWorldMatrix);
 	MatrixTranspose(inversedWorldMatrix, normalMatrix);
 	glUniformMatrix4fv(normalMatrixLoc, 1, false, normalMatrix);
@@ -195,14 +198,17 @@ void Object3D::render(GLFWwindow* window)
 	GLint ambiantLightColor = glGetUniformLocation(program, "u_ambiantLightColor");
 	glUniform4fv(ambiantLightColor, 1, this->ambiantLight.color);
 
-	GLint ambiantLightStrength = glGetUniformLocation(program, "u_ambiantLightStrength");
-	glUniform1f(ambiantLightStrength, this->ambiantLight.ambiantStrength);
-
 	GLint diffuseLightPos = glGetUniformLocation(program, "u_lightPos");
 	glUniform3fv(diffuseLightPos, 1, this->diffuseLight.position);
 
-	GLint specularLightStrength = glGetUniformLocation(program, "u_specularLightStrength");
-	glUniform1f(specularLightStrength, this->specularLight.specularStrength);
+	GLint materialAmbient = glGetUniformLocation(program, "u_material.ambient");
+	glUniform3fv(materialAmbient, 1, this->mat.ambient);
+	GLint materialDiffuse = glGetUniformLocation(program, "u_material.diffuse");
+	glUniform3fv(materialDiffuse, 1, this->mat.diffuse);
+	GLint materialSpecular = glGetUniformLocation(program, "u_material.specular");
+	glUniform3fv(materialSpecular, 1, this->mat.specular);
+	GLint materialShininess = glGetUniformLocation(program, "u_material.shininess");
+	glUniform1f(materialShininess, this->mat.shininess);
 
 	glBindVertexArray(VAO);
 

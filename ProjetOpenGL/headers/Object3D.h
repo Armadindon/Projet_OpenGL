@@ -35,6 +35,7 @@ private:
 	AmbiantLight ambiantLight;
 	DiffuseLight diffuseLight;
 	SpecularLight specularLight;
+	Material mat;
 
 	void clear();
 

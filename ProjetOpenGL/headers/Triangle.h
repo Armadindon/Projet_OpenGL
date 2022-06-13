@@ -10,7 +10,7 @@ struct Triangle {
 	int normals[3];
 	//Index des uvs
 	int uvs[3];
-	//Index du material (TODO)
+	//Index du material
 	int material;
 };
 

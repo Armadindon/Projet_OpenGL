@@ -32,7 +32,6 @@ struct Vertex
 	float position[3]; // x, y, z 
 	float normal[3]; // nx, ny, ny
 	float uv[2]; // u, v
-	Material mat;
 };
 
 #endif
