@@ -14,6 +14,7 @@
 #include "../../common/toolsbox.h"
 #include "Material.h"
 #include "Light.h"
+#include "Matrix.h"
 
 #include <GLFW/glfw3.h>
 #include <vector>

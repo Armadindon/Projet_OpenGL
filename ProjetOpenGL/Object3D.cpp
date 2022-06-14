@@ -165,26 +165,18 @@ void Object3D::render(GLFWwindow* window)
 	auto program = shader.GetProgram();
 	glUseProgram(program);
 
-	const float zNear = 0.1f;
-	const float zFar = 100.0f;
-	const float aspect = float(width) / float(height);
 	const float fov = 45.0f * M_PI / 180.0f;
 	const float f = 1.0f / tanf(fov / 2.0f);
-	const float projection[] = {
-		f / aspect, 0.f, 0.f, 0.f,
-		0.f, f, 0.f, 0.f,
-		0.f, 0.f, ((zFar + zNear) / (zNear - zFar)), -1.f,
-		0.f, 0.f, ((2 * zNear * zFar) / (zNear - zFar)), 0.f
-	};
+	const float* projectionMatrix = getProjectionMatrix(0.1f, 100.0f, float(width) / float(height), f);
 
 	GLint proj = glGetUniformLocation(program, "u_projection");
-	glUniformMatrix4fv(proj, 1, false, projection);
+	glUniformMatrix4fv(proj, 1, false, projectionMatrix);
 
-	GLint position = glGetUniformLocation(program, "u_position");
+	GLint position = glGetUniformLocation(program, "u_world");
 	float* worldPosition = this->position.getWorldMatrix();
 	glUniformMatrix4fv(position, 1, false, worldPosition);
 
-	//Calcul de la matrice inverse
+	// Calcule de la matrice normale
 	GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
 	float* inversedWorldMatrix = (float*)malloc(sizeof(float) * 16);
 	float* normalMatrix = (float*)malloc(sizeof(float) * 16);
@@ -192,15 +184,17 @@ void Object3D::render(GLFWwindow* window)
 	MatrixTranspose(inversedWorldMatrix, normalMatrix);
 	glUniformMatrix4fv(normalMatrixLoc, 1, false, normalMatrix);
 
+	// Gestion de la couleur
 	GLint colorLoc = glGetUniformLocation(program, "u_color");
 	glUniform4fv(colorLoc, 1, this->color);
 
+	// Gestion de la lumière
 	GLint ambiantLightColor = glGetUniformLocation(program, "u_ambiantLightColor");
 	glUniform4fv(ambiantLightColor, 1, this->ambiantLight.color);
-
 	GLint diffuseLightPos = glGetUniformLocation(program, "u_lightPos");
 	glUniform3fv(diffuseLightPos, 1, this->diffuseLight.position);
 
+	// Gestion des Materiels
 	GLint materialAmbient = glGetUniformLocation(program, "u_material.ambient");
 	glUniform3fv(materialAmbient, 1, this->mat.ambient);
 	GLint materialDiffuse = glGetUniformLocation(program, "u_material.diffuse");

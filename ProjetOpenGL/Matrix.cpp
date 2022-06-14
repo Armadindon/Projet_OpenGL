@@ -47,3 +47,18 @@ float* getScaleMatrix(float scaleX, float scaleY, float scaleZ) {
 
 	return scaleMatrix;
 }
+
+float* getProjectionMatrix(float zNear, float zFar, float aspect, float f)
+{
+	const float projectionMatrixStatic[] = {
+		f / aspect, 0.f, 0.f, 0.f,
+		0.f, f, 0.f, 0.f,
+		0.f, 0.f, ((zFar + zNear) / (zNear - zFar)), -1.f,
+		0.f, 0.f, ((2 * zNear * zFar) / (zNear - zFar)), 0.f
+	};
+
+	float* projectionMatrix = (float*)malloc(sizeof(float) * 16);
+	if (projectionMatrix != NULL) for (int i = 0; i < 16; i++) projectionMatrix[i] = projectionMatrixStatic[i];
+
+	return projectionMatrix;
+}
