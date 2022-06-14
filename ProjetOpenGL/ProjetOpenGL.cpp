@@ -18,6 +18,7 @@
 #include "headers/Transform.h"
 #include "headers/Object3D.h"
 #include "headers/Light.h"
+#include "headers/Vector.h"
 
 
 // attention, ce define ne doit etre specifie que dans 1 seul fichier cpp
@@ -39,6 +40,7 @@ float sphereColor[] = { 0.9882f, 0.7294f, 0.012f, 1.f };
 float cubeColor[] = { 0.105f, 0.772f, 0.125f, 1.f };
 
 float lightPose[] = { 0.f, 0.f, -10.f };
+
 
 AmbiantLight ambiantLight = { { 1.f, 1.f, 1.f, 1.f }, 0.3f };
 //Pour le moment, on ne gère qu'une diffuse light

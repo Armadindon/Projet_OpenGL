@@ -4,6 +4,7 @@
 #define Transform_H
 
 #include "Vertex.h"
+#include "Vector.h"
 
 class Transform {
 

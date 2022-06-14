@@ -7,21 +7,6 @@
 
 #include <cstdint>
 
-struct vec2 {
-	float x, y;
-};
-
-struct vec3 {
-	float x, y, z;
-};
-
-struct vec4Rot {
-	float x;
-	float y;
-	float z;
-	float theta;
-};
-
 struct Color {
 	uint8_t r, g, b, a;
 };

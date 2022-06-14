@@ -1,6 +1,12 @@
 #include "headers/Object3D.h"
 
-
+// Gestion de la caméra
+vec3 cameraPos = { 0.f, 0.f, 15.f };
+vec3 cameraTarget = { 0.f, 0.f, -10.f };
+vec3 cameraDirection = normalize({ cameraPos.x - cameraTarget.x, cameraPos.y - cameraTarget.y, cameraPos.z - cameraTarget.z });
+vec3 up = { 0.0f, 1.0f, 0.0f };
+vec3 cameraRight = normalize(cross(up, cameraDirection));
+vec3 cameraUp = cross(cameraDirection, cameraRight);
 
 void Object3D::clear() {
 	vertices.clear();
@@ -175,6 +181,10 @@ void Object3D::render(GLFWwindow* window)
 	GLint position = glGetUniformLocation(program, "u_world");
 	float* worldPosition = this->position.getWorldMatrix();
 	glUniformMatrix4fv(position, 1, false, worldPosition);
+
+	GLint view = glGetUniformLocation(program, "u_view");
+	float* viewMatrix = getLookAtMatrix(cameraRight, cameraUp, cameraDirection, cameraPos);
+	glUniformMatrix4fv(view, 1, false, viewMatrix);
 
 	// Calcule de la matrice normale
 	GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");

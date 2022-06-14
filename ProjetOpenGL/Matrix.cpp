@@ -62,3 +62,25 @@ float* getProjectionMatrix(float zNear, float zFar, float aspect, float f)
 
 	return projectionMatrix;
 }
+
+float* getLookAtMatrix(vec3 right, vec3 up, vec3 direction, vec3 position)
+{
+	float staticLookAtMatrix1[] = {
+		right.x, up.x, direction.x, 0.f,
+		right.y, up.y, direction.y, 0.f,
+		right.z, up.z, direction.z, 0.f,
+		0.f, 0.f, 0.f, 1.f
+	};
+
+	float staticLookAtMatrix2[] = {
+		1.f, 0.f, 0.f, 0.f,
+		0.f, 1.f, 0.f, 0.f,
+		0.f, 0.f, 1.f, 0.f,
+		-position.x, -position.y, -position.z, 1.f
+	};
+
+	float* lookAtMatrix = (float*)malloc(sizeof(float) * 16);
+	MatrixMultiply(staticLookAtMatrix1, staticLookAtMatrix2, lookAtMatrix);
+
+	return lookAtMatrix;
+}
