@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="..\common\GLShader.cpp" />
     <ClCompile Include="..\common\toolsbox.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="headers\Vector.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Object3D.cpp" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="..\common\GLShader.h" />
     <ClInclude Include="..\common\toolsbox.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="headers\Light.h" />
     <ClInclude Include="headers\Material.h" />
     <ClInclude Include="headers\Matrix.h" />

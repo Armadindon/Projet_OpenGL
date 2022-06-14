@@ -1,16 +1,10 @@
 #include "headers/Object3D.h"
 
-// Gestion de la caméra
-vec3 cameraPos = { 0.f, 0.f, 0.f };
-vec3 cameraTarget = { 0.f, 0.f, -1.f };
-vec3 up = { 0.0f, 1.0f, 0.0f };
-
-
 void Object3D::clear() {
 	vertices.clear();
 }
 
-Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float* color)
+Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float* color, Camera cam)
 {
 	this->shader = shader;
 	this->position = tf;
@@ -18,6 +12,7 @@ Object3D::Object3D(const char* model, const char* materialFolder, GLShader shade
 	this->ambiantLight = ambiantLight;
 	this->diffuseLight = diffuseLight;
 	this->specularLight = specularLight;
+	this->camera = cam;
 	loadObjFile(model, materialFolder);
 	init();
 }
@@ -181,7 +176,7 @@ void Object3D::render(GLFWwindow* window)
 	glUniformMatrix4fv(position, 1, false, worldPosition);
 
 	GLint view = glGetUniformLocation(program, "u_view");
-	float* viewMatrix = getLookAtMatrix(cameraPos, cameraTarget, up);
+	float* viewMatrix = this->camera.getLookAtMatrix();
 	glUniformMatrix4fv(view, 1, false, viewMatrix);
 
 	// Calcule de la matrice normale

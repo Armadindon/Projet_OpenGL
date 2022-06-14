@@ -16,6 +16,6 @@ vec3 cross(vec3 vectorA, vec3 vectorB)
 	return { 
 		vectorA.y * vectorB.z - vectorA.z * vectorB.y,
 		vectorA.z * vectorB.x - vectorA.x * vectorB.z,
-		vectorA.x * vectorB.y - vectorA.y * vectorB.x,
+		vectorA.x * vectorB.y - vectorA.y * vectorB.x
 	};
 }

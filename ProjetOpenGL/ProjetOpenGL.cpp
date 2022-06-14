@@ -19,6 +19,7 @@
 #include "headers/Object3D.h"
 #include "headers/Light.h"
 #include "headers/Vector.h"
+#include "Camera.h"
 
 
 // attention, ce define ne doit etre specifie que dans 1 seul fichier cpp
@@ -33,6 +34,7 @@ GLuint TexID;
 Transform tf;
 
 Object3D sphere, lightCube, cube;
+Camera cam;
 
 //Paramètres globaux
 float ligtCubeColor[] = { 1.f, 1.f, 1.f, 1.f };
@@ -86,14 +88,20 @@ bool Initialise()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
+	cam = Camera(
+		{ 0.f, 0.f, 0.f }, //position
+		{ 0.f, 0.f, -1.f }, //front
+		{ 0.0f, 1.0f, 0.0f } //up
+	);
+
 	Transform lightCubeTransform = Transform({ lightPose[0], lightPose[1], lightPose[2] }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, specularLight, ligtCubeColor);
+	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, specularLight, ligtCubeColor, cam);
 
 	Transform sphereTransform = Transform({ -2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	sphere = Object3D("../models/sphere/sphere.obj", "../models/sphere", modelShader, sphereTransform, ambiantLight, diffuseLight, specularLight, sphereColor);
+	sphere = Object3D("../models/sphere/sphere.obj", "../models/sphere", modelShader, sphereTransform, ambiantLight, diffuseLight, specularLight, sphereColor, cam);
 
 	Transform cubeTransform = Transform({ 2.5f, 0.f, -12.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, cubeColor);
+	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, cubeColor, cam);
 
 	return true;
 }
