@@ -43,6 +43,9 @@ float cubeColor[] = { 0.105f, 0.772f, 0.125f, 1.f };
 
 float lightPose[] = { 0.f, 0.f, -10.f };
 
+float deltaTime = 0.f;
+float lastFrame = 0.f;
+
 
 AmbiantLight ambiantLight = { { 1.f, 1.f, 1.f, 1.f }, 0.3f };
 //Pour le moment, on ne gère qu'une diffuse light
@@ -128,6 +131,21 @@ void Render(GLFWwindow* window)
 	cube.render(window);
 }
 
+void processInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		cam.ProcessKeyboard(1, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		cam.ProcessKeyboard(2, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		cam.ProcessKeyboard(3, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		cam.ProcessKeyboard(4, deltaTime);
+}
+
 
 int main(void)
 {
@@ -153,6 +171,12 @@ int main(void)
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
+		float currentFrame = static_cast<float>(glfwGetTime());
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
+		processInput(window);
+
 		/* Render here */
 		Render(window);
 
