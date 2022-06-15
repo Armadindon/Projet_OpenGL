@@ -7,6 +7,34 @@ struct vec2 {
 
 struct vec3 {
 	float x, y, z;
+
+	vec3() : x(0.f), y(0.f), z(0.f) {};
+	vec3(float x, float y, float z) : x(x), y(y), z(z) { };
+
+	vec3 operator+ (vec3 vec2) {
+
+		return vec3(this->x + vec2.x, this->y + vec2.y, this->z + vec2.z);
+	}
+
+	vec3 operator* (float n) {
+		return vec3(this->x * n, this->y * n, this->z * n);
+	}
+
+	vec3& operator+= (vec3 vec) {
+		this->x += vec.x;
+		this->y += vec.y;
+		this->z += vec.z;
+
+		return *this;
+	}
+
+	vec3& operator-= (vec3 vec) {
+		this->x -= vec.x;
+		this->y -= vec.y;
+		this->z -= vec.z;
+
+		return *this;
+	}
 };
 
 struct vec4Rot {

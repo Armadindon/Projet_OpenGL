@@ -38,16 +38,16 @@ private:
 	DiffuseLight diffuseLight;
 	SpecularLight specularLight;
 	Material mat;
-	Camera camera;
+	Camera *camera;
 
 	void clear();
 
 public:
 	Object3D() : VAO(0), VBO(0) 
 	{
-		this->camera = Camera();
+		this->camera = new Camera();
 	}
-	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float *color, Camera cam);
+	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float *color, Camera *cam);
 	void init();
 	void loadObjFile(const char* filePath, const char* materialFolder);
 	void render(GLFWwindow* window);

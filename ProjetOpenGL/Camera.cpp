@@ -4,7 +4,7 @@
 float* Camera::getLookAtMatrix()
 {
 	vec3 cameraPos = this->position;
-	vec3 cameraTarget = this->target;
+	vec3 cameraTarget = this->position + this->front;
 	vec3 up = this->up;
 
 	vec3 cameraDirection = normalize({ cameraPos.x - cameraTarget.x, cameraPos.y - cameraTarget.y, cameraPos.z - cameraTarget.z });
@@ -29,4 +29,20 @@ float* Camera::getLookAtMatrix()
 	MatrixMultiply(staticLookAtMatrix1, staticLookAtMatrix2, lookAtMatrix);
 
 	return lookAtMatrix;
+}
+
+void Camera::processInput(GLFWwindow *window)
+{
+	double currentFrame = glfwGetTime();
+	double deltaTime = currentFrame - this->lastFrame;
+	this->lastFrame = currentFrame;
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		this->position += this->front * this->speed * deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		this->position -= this->front * this->speed * deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		this->position -= normalize(cross(this->front, this->up)) * this->speed * deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		this->position += normalize(cross(this->front, this->up)) * this->speed * deltaTime;
 }

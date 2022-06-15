@@ -72,7 +72,17 @@ void loadTexFromFile(const char* filename) {
 	}
 }
 
-bool Initialise()
+/* Fonction appelée lorsque l'utilisateur clique sur son clavier */
+/* Le déplacement n'est pas smooth comme ça */
+/*
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	cam.processInput(key);
+}
+*/
+
+
+bool Initialise(GLFWwindow* window)
 {
 	GLenum ret = glewInit();
 
@@ -95,13 +105,15 @@ bool Initialise()
 	);
 
 	Transform lightCubeTransform = Transform({ lightPose[0], lightPose[1], lightPose[2] }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, specularLight, ligtCubeColor, cam);
+	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, specularLight, ligtCubeColor, &cam);
 
 	Transform sphereTransform = Transform({ -2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	sphere = Object3D("../models/sphere/sphere.obj", "../models/sphere", modelShader, sphereTransform, ambiantLight, diffuseLight, specularLight, sphereColor, cam);
+	sphere = Object3D("../models/sphere/sphere.obj", "../models/sphere", modelShader, sphereTransform, ambiantLight, diffuseLight, specularLight, sphereColor, &cam);
 
 	Transform cubeTransform = Transform({ 2.5f, 0.f, -12.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, cubeColor, cam);
+	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, cubeColor, &cam);
+
+	//glfwSetKeyCallback(window, key_callback);
 
 	return true;
 }
@@ -128,6 +140,10 @@ void Render(GLFWwindow* window)
 	cube.render(window);
 }
 
+void Update(GLFWwindow* window) {
+	cam.processInput(window);
+}
+
 
 int main(void)
 {
@@ -148,11 +164,14 @@ int main(void)
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 
-	Initialise();
+	Initialise(window);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
+		/* Update Here */
+		Update(window);
+
 		/* Render here */
 		Render(window);
 

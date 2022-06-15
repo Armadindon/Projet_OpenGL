@@ -4,7 +4,7 @@ void Object3D::clear() {
 	vertices.clear();
 }
 
-Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float* color, Camera cam)
+Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float* color, Camera *cam)
 {
 	this->shader = shader;
 	this->position = tf;
@@ -176,7 +176,7 @@ void Object3D::render(GLFWwindow* window)
 	glUniformMatrix4fv(position, 1, false, worldPosition);
 
 	GLint view = glGetUniformLocation(program, "u_view");
-	float* viewMatrix = this->camera.getLookAtMatrix();
+	float* viewMatrix = this->camera->getLookAtMatrix();
 	glUniformMatrix4fv(view, 1, false, viewMatrix);
 
 	// Calcule de la matrice normale

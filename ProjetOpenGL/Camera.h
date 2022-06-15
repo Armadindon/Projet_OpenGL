@@ -5,31 +5,30 @@
 
 #include "headers/Vertex.h"
 #include "headers/Vector.h"
-
-enum Movements {
-	FORWARD,
-	BACKWARD,
-	LEFT,
-	RIGHT
-};
+#include <GLFW/glfw3.h>
 
 class Camera {
 
 private:
 	vec3 position;
-	vec3 target;
+	vec3 front;
 	vec3 up;
 	float speed;
+	double lastFrame;
 
 public:
-	Camera() : position({ 0.f, 0.f, 0.f }), target({ 0.f, 0.f, 0.f }), up({ 0.f, 0.f, 0.f }), speed(0.f) {};
+	Camera() : position({ 0.f, 0.f, 0.f }), front({ 0.f, 0.f, -1.f }), up({ 0.f, 0.f, 0.f }), speed(0.f) {
+		this->lastFrame = glfwGetTime();
+	};
 
-	Camera(vec3 position, vec3 target, vec3 up) : position(position), target(target), up(up)
+	Camera(vec3 position, vec3 front, vec3 up) : position(position), front(front), up(up)
 	{
 		speed = 3.f;
+		this->lastFrame = glfwGetTime();
 	};
 
 	float* getLookAtMatrix();
+	void processInput(GLFWwindow *window);
 };
 
 #endif
