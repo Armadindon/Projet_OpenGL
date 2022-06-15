@@ -46,3 +46,36 @@ void Camera::processInput(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		this->position += normalize(cross(this->front, this->up)) * this->speed * deltaTime;
 }
+
+void Camera::mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	if (firstMouse)
+	{
+		this->mouseLastX = xpos;
+		this->mouseLastY = ypos;
+		this->firstMouse = false;
+	}
+
+	float xoffset = xpos - this->mouseLastX;
+	float yoffset = this->mouseLastY - ypos;
+	this->mouseLastX = xpos;
+	this->mouseLastY = ypos;
+
+	xoffset *= this->sensitivity;
+	yoffset *= this->sensitivity;
+
+	this->yaw += xoffset;
+	this->pitch += yoffset;
+
+	if (this->pitch > 89.0f)
+		this->pitch = 89.0f;
+	if (this->pitch < -89.0f)
+		this->pitch = -89.0f;
+
+	vec3 direction;
+	direction.x = cos(toRadians(yaw)) * cos(toRadians(pitch));
+	direction.y = sin(toRadians(pitch));
+	direction.z = sin(toRadians(yaw)) * cos(toRadians(pitch));
+	this->front = normalize(direction);
+}
+

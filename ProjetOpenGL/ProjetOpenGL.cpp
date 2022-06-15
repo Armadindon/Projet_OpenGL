@@ -81,6 +81,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 }
 */
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+	cam.mouse_callback(window, xpos, ypos);
+}
 
 bool Initialise(GLFWwindow* window)
 {
@@ -97,11 +100,13 @@ bool Initialise(GLFWwindow* window)
 	//On active le test de profondeur et le face culling
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	cam = Camera(
 		{ 0.f, 0.f, 0.f }, //position
 		{ 0.f, 0.f, -1.f }, //front
-		{ 0.0f, 1.0f, 0.0f } //up
+		{ 0.0f, 1.0f, 0.0f }, //up
+		window
 	);
 
 	Transform lightCubeTransform = Transform({ lightPose[0], lightPose[1], lightPose[2] }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
@@ -114,6 +119,7 @@ bool Initialise(GLFWwindow* window)
 	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, cubeColor, &cam);
 
 	//glfwSetKeyCallback(window, key_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
 
 	return true;
 }

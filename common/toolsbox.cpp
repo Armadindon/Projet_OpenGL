@@ -1,3 +1,4 @@
+#include "toolsbox.h"
 
 void convert4(const float* MatrixIn, float* MatrixOut) {
 	for (int i = 0; i < 4; i++) {
@@ -231,5 +232,10 @@ bool inverse(const float* MatrixIn, float* MatrixOut) {
 	convert4(MO, MatrixOut);
 
 	return true;
+}
+
+float toRadians(float degrees)
+{
+	return degrees * M_PI / 180;
 }
 
