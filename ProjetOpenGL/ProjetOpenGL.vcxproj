@@ -158,6 +158,7 @@
     <ClInclude Include="..\common\GLShader.h" />
     <ClInclude Include="..\common\toolsbox.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ExampleMaterial.h" />
     <ClInclude Include="headers\Light.h" />
     <ClInclude Include="headers\Material.h" />
     <ClInclude Include="headers\Matrix.h" />

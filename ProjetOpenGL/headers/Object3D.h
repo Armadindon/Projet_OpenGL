@@ -34,9 +34,7 @@ private:
 	Transform position;
 	std::vector<Vertex> vertices;
 	float *color;
-	AmbiantLight ambiantLight;
-	DiffuseLight diffuseLight;
-	SpecularLight specularLight;
+	LightParams light;
 	Material mat;
 	Camera *camera;
 
@@ -47,10 +45,11 @@ public:
 	{
 		this->camera = new Camera();
 	}
-	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float *color, Camera *cam);
+	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, LightParams light, float* color, Camera* cam);
 	void init();
 	void loadObjFile(const char* filePath, const char* materialFolder);
 	void render(GLFWwindow* window);
+	void setMaterial(Material mat);
 };
 
 #endif

@@ -35,6 +35,15 @@ struct vec3 {
 
 		return *this;
 	}
+
+	float* toArray() {
+		float* vec = (float*) malloc(sizeof(float) * 3);
+		vec[0] = this->x;
+		vec[1] = this->y;
+		vec[2] = this->z;
+
+		return vec;
+	}
 };
 
 struct vec4Rot {

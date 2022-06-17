@@ -79,3 +79,8 @@ void Camera::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	this->front = normalize(direction);
 }
 
+const vec3 Camera::getPosition()
+{
+	return this->position;
+}
+

@@ -20,6 +20,7 @@
 #include "headers/Light.h"
 #include "headers/Vector.h"
 #include "Camera.h"
+#include "ExampleMaterial.h"
 
 
 // attention, ce define ne doit etre specifie que dans 1 seul fichier cpp
@@ -39,17 +40,16 @@ Camera cam;
 //Paramètres globaux
 float ligtCubeColor[] = { 1.f, 1.f, 1.f, 1.f };
 float sphereColor[] = { 0.9882f, 0.7294f, 0.012f, 1.f };
-float cubeColor[] = { 0.105f, 0.772f, 0.125f, 1.f };
+float cubeColor[] = { 1.f, 0.f, 0.f, 1.f };
 
 float lightPose[] = { 0.f, 0.f, -10.f };
 
-
-AmbiantLight ambiantLight = { { 1.f, 1.f, 1.f, 1.f }, 0.3f };
-//Pour le moment, on ne gère qu'une diffuse light
-DiffuseLight diffuseLight = { {lightPose[0], lightPose[1], lightPose[2]} };
-
-SpecularLight specularLight = { 1.f };
-
+LightParams light = {
+	{ lightPose[0], lightPose[1], lightPose[2] }, // Même posiotion que lightPose
+	{.4f, .4f, .4f}, // Couleur ambiante -> Peu forte
+	{.8f, .8f, .8f}, // Couleur de la lumière -> importante
+	{1.f, 1.f, 1.f}, // Couleur spéculaire -> Ultra forte
+};
 
 void loadTexFromFile(const char* filename) {
 	//On initialise la texture
@@ -109,14 +109,14 @@ bool Initialise(GLFWwindow* window)
 		window
 	);
 
-	Transform lightCubeTransform = Transform({ lightPose[0], lightPose[1], lightPose[2] }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ambiantLight, diffuseLight, specularLight, ligtCubeColor, &cam);
+	Transform lightCubeTransform = Transform({ lightPose[0], lightPose[1], lightPose[2] }, { 0.f, 0.f, 0.f, 0.f }, { .5f,.5f,.5f });
+	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, light, ligtCubeColor, &cam);
 
 	Transform sphereTransform = Transform({ -2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	sphere = Object3D("../models/sphere/sphere.obj", "../models/sphere", modelShader, sphereTransform, ambiantLight, diffuseLight, specularLight, sphereColor, &cam);
+	sphere = Object3D("../models/sphere/sphere.obj", "../models/sphere", modelShader, sphereTransform, light, sphereColor, &cam);
 
 	Transform cubeTransform = Transform({ 2.5f, 0.f, -12.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, ambiantLight, diffuseLight, specularLight, cubeColor, &cam);
+	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, light, cubeColor, &cam);
 
 	//glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
@@ -143,6 +143,9 @@ void Render(GLFWwindow* window)
 
 	lightCube.render(window);
 	sphere.render(window);
+
+	//On peut override de cette manière la matériaux chargé
+	cube.setMaterial(pearl);
 	cube.render(window);
 }
 

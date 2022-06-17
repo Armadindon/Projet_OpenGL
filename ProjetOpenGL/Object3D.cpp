@@ -4,14 +4,12 @@ void Object3D::clear() {
 	vertices.clear();
 }
 
-Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, AmbiantLight ambiantLight, DiffuseLight diffuseLight, SpecularLight specularLight, float* color, Camera *cam)
+Object3D::Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, LightParams light, float* color, Camera* cam)
 {
 	this->shader = shader;
 	this->position = tf;
 	this->color = color;
-	this->ambiantLight = ambiantLight;
-	this->diffuseLight = diffuseLight;
-	this->specularLight = specularLight;
+	this->light = light;
 	this->camera = cam;
 	loadObjFile(model, materialFolder);
 	init();
@@ -64,10 +62,14 @@ void Object3D::loadObjFile(const char* filePath, const char* materialFolder)
 
 	std::vector<Material> materialList;
 	for (auto material = materials.begin(); material < materials.end(); ++material) {
+		vec3 ambient = vec3(material->ambient[0], material->ambient[1], material->ambient[2]);
+		vec3 diffuse = vec3(material->diffuse[0], material->diffuse[1], material->diffuse[2]);
+		vec3 specular = vec3(material->specular[0], material->specular[1], material->specular[2]);
+
 		materialList.push_back({
-			*material->ambient,
-			*material->diffuse,
-			*material->specular,
+			ambient.toArray(),
+			diffuse.toArray(),
+			specular.toArray(),
 			material->shininess,
 			});
 	}
@@ -168,6 +170,7 @@ void Object3D::render(GLFWwindow* window)
 	const float f = 1.0f / tanf(fov / 2.0f);
 	const float* projectionMatrix = getProjectionMatrix(0.1f, 100.0f, float(width) / float(height), f);
 
+	//TODO: Faire la matrice MVP ici (pour éviter les calculs dans le shader)
 	GLint proj = glGetUniformLocation(program, "u_projection");
 	glUniformMatrix4fv(proj, 1, false, projectionMatrix);
 
@@ -178,6 +181,10 @@ void Object3D::render(GLFWwindow* window)
 	GLint view = glGetUniformLocation(program, "u_view");
 	float* viewMatrix = this->camera->getLookAtMatrix();
 	glUniformMatrix4fv(view, 1, false, viewMatrix);
+
+	GLint camPos = glGetUniformLocation(program, "u_cameraPos");
+	vec3 pos = this->camera->getPosition();
+	glUniform3fv(camPos, 1, pos.toArray());
 
 	// Calcule de la matrice normale
 	GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
@@ -192,10 +199,14 @@ void Object3D::render(GLFWwindow* window)
 	glUniform4fv(colorLoc, 1, this->color);
 
 	// Gestion de la lumière
-	GLint ambiantLightColor = glGetUniformLocation(program, "u_ambiantLightColor");
-	glUniform4fv(ambiantLightColor, 1, this->ambiantLight.color);
-	GLint diffuseLightPos = glGetUniformLocation(program, "u_lightPos");
-	glUniform3fv(diffuseLightPos, 1, this->diffuseLight.position);
+	GLint ligtPos = glGetUniformLocation(program, "u_lightPos");
+	glUniform3fv(ligtPos, 1, this->light.position);
+	GLint ambiant = glGetUniformLocation(program, "u_ambiantColor");
+	glUniform4fv(ambiant, 1, this->light.ambientColor);
+	GLint diffuse = glGetUniformLocation(program, "u_diffuseColor");
+	glUniform4fv(diffuse, 1, this->light.diffuseColor);
+	GLint specular = glGetUniformLocation(program, "u_specularColor");
+	glUniform4fv(specular, 1, this->light.specularColor);
 
 	// Gestion des Materiels
 	GLint materialAmbient = glGetUniformLocation(program, "u_material.ambient");
@@ -213,4 +224,9 @@ void Object3D::render(GLFWwindow* window)
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
 	glBindVertexArray(0);
+}
+
+void Object3D::setMaterial(Material mat)
+{
+	this->mat = mat;
 }

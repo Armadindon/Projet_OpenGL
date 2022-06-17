@@ -39,6 +39,7 @@ public:
 	float* getLookAtMatrix();
 	void processInput(GLFWwindow* window);
 	void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+	const vec3 getPosition();
 };
 
 #endif

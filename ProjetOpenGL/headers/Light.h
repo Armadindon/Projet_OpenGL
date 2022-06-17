@@ -4,16 +4,11 @@
 #define Light_H
 
 typedef struct {
-	float color[4];
-	float ambiantStrength;
-} AmbiantLight;
+    float position[3];
 
-typedef struct {
-	float position[3];
-} DiffuseLight;
-
-typedef struct {
-	float specularStrength;
-} SpecularLight;
+    float ambientColor[4];
+    float diffuseColor[4];
+    float specularColor[4];
+} LightParams;
 
 #endif 
