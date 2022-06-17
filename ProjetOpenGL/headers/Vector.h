@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef _Vector_H_
+#define _Vector_H_
+
 #include <cmath>
 
 struct vec2 {
@@ -56,3 +60,5 @@ struct vec4Rot {
 float length(vec3 vector);
 vec3 normalize(vec3 vector);
 vec3 cross(vec3 vectorA, vec3 vectorB);
+
+#endif

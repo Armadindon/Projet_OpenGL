@@ -1,6 +1,7 @@
 #pragma once
-#ifndef Matrix_H
-#define Matrix_H
+#ifndef _Matrix_H_
+#define _Matrix_H_
+
 #include "Vector.h"
 #include "../../common/toolsbox.h"
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef Object3D_H
-#define Object3D_H
+#ifndef _Object3D_H_
+#define _Object3D_H_
 
 #define _USE_MATH_DEFINES
 
@@ -10,11 +10,11 @@
 #include "Transform.h"
 #include "GL/glew.h"
 #include "../../common/GLShader.h"
-#include "../../common/tiny_obj_loader.h"
 #include "../../common/toolsbox.h"
 #include "Material.h"
 #include "Light.h"
 #include "Matrix.h"
+#include "../Model.h"
 #include "../Camera.h"
 
 #include <GLFW/glfw3.h>
@@ -23,32 +23,20 @@
 #include <math.h>
 #include <iostream>
 
-class Object3D
+/* Classe 3D gérant les matériaux */
+class ModelWithMat: public Model
 {
-private:
-	//Render
-	GLuint VBO, VAO;
-	GLShader shader;
-
-	//Data
-	Transform position;
-	std::vector<Vertex> vertices;
-	float *color;
+protected:
 	LightParams light;
 	Material mat;
-	Camera *camera;
+	void loadObjFile(const char* filePath, const char* materialFolder) override;
+	void initAttribLocation() override;
+	void updateUniform(GLFWwindow* window) override;
 
-	void clear();
 
 public:
-	Object3D() : VAO(0), VBO(0) 
-	{
-		this->camera = new Camera();
-	}
-	Object3D(const char* model, const char* materialFolder, GLShader shader, Transform tf, LightParams light, float* color, Camera* cam);
-	void init();
-	void loadObjFile(const char* filePath, const char* materialFolder);
-	void render(GLFWwindow* window);
+	ModelWithMat() : Model(), light({ 0.f, 0.f, 0.f, 0.f }), mat({ nullptr, nullptr, nullptr, 0.f }) { };
+	ModelWithMat(const char* model, const char* materialFolder, GLShader shader, Transform tf, LightParams light, float* color, Camera* cam);
 	void setMaterial(Material mat);
 };
 

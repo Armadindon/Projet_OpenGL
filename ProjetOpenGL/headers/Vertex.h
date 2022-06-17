@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef Vertex_H
-#define Vertex_H
+#ifndef _Vertex_H_
+#define _Vertex_H_
 
 #include "Material.h"
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef Material_H
-#define Material_H
+#ifndef _Material_H_
+#define _Material_H_
 
 typedef struct {
 	float *ambient;

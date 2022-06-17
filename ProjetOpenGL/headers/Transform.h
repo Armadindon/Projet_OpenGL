@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef Transform_H
-#define Transform_H
+#ifndef _Transform_H_
+#define _Transform_H_
 
 #include "Vertex.h"
 #include "Vector.h"

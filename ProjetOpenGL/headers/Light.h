@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef Light_H
-#define Light_H
+#ifndef _Light_H_
+#define _Light_H_
 
 typedef struct {
     float position[3];

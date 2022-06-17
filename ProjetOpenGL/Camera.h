@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef Camera_H
-#define Camera_H
+#ifndef _Camera_H_
+#define _Camera_H_
 
 #include "headers/Vertex.h"
 #include "headers/Vector.h"

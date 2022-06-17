@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef Triangle_H
-#define Triangle_H
+#ifndef _Triangle_H_
+#define _Triangle_H_
 
 struct Triangle {
 	//Index des vertices

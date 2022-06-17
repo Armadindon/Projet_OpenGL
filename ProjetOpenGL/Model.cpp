@@ -1,33 +1,21 @@
-#include "headers/Object3D.h"
+#include "Model.h"
+#include "headers/Triangle.h"
+#include "headers/Matrix.h"
 
-ModelWithMat::ModelWithMat(const char* model, const char* materialFolder, GLShader shader, Transform tf, LightParams light, float* color, Camera* cam)
+
+Model::Model(const char* model, const char* materialFolder, GLShader shader, Transform tf, float* color, Camera* cam) 
 {
 	this->shader = shader;
 	this->position = tf;
 	this->color = color;
 	this->camera = cam;
-	this->light = light;
 
 	loadObjFile(model, materialFolder);
 	init();
 }
 
-void ModelWithMat::initAttribLocation()
-{
-	// Call to parent method
-	Model::initAttribLocation();
-
-
-	const size_t stride = sizeof(Vertex);
-	auto program = shader.GetProgram();
-
-	int loc_normal = glGetAttribLocation(program, "a_normal");
-	glEnableVertexAttribArray(loc_normal);
-	glVertexAttribPointer(loc_normal, 3, GL_FLOAT
-		, false, stride, (void*)offsetof(Vertex, normal));
-}
-
-void ModelWithMat::loadObjFile(const char* filePath, const char* materialFolder)
+/* Load un modèle obj et les materiels associés */
+void Model::loadObjFile(const char* filePath, const char* materialFolder)
 {
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
@@ -86,7 +74,6 @@ void ModelWithMat::loadObjFile(const char* filePath, const char* materialFolder)
 
 	//Pour simplifier, on considère qu'il n'y a qu'un seul material par objet
 	//TODO: Possibilité d'ajouter un material par vertex
-	this->mat = materialList[0];
 
 	//On load ensuite les faces et on constitue le tableau des vertices
 	std::vector<Triangle> triangles;
@@ -125,48 +112,88 @@ void ModelWithMat::loadObjFile(const char* filePath, const char* materialFolder)
 		}
 
 	}
+
 }
 
-void ModelWithMat::updateUniform(GLFWwindow* window)
+void Model::init()
 {
-	// Call to parent method
-	Model::updateUniform(window);
+	// Création du VAO
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	//On crée le VBO
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER
+		, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+
+	//TODO: Recreer l'IBO
+	initAttribLocation();
+
+	glEnableVertexAttribArray(0);
+	glBindVertexArray(0);
+}
+
+/* Initialise les attributes des shaders */
+void Model::initAttribLocation()
+{
+	const size_t stride = sizeof(Vertex);
+	auto program = shader.GetProgram();
+
+	// Passage des attributs de shader
+	int loc_position = glGetAttribLocation(program, "a_position");
+	glEnableVertexAttribArray(loc_position);
+	glVertexAttribPointer(loc_position, 3, GL_FLOAT
+		, false, stride, (void*)offsetof(Vertex, position));
+
+	int loc_uv = glGetAttribLocation(program, "a_texcoords");
+	glEnableVertexAttribArray(loc_uv);
+	glVertexAttribPointer(loc_uv, 2, GL_FLOAT
+		, false, stride, (void*)offsetof(Vertex, uv));
+}
+
+void Model::render(GLFWwindow* window)
+{
+	updateUniform(window);
+
+	glBindVertexArray(VAO);
+
+	// Quand l'IBO sera recrée, utiliser glDrawElements (optimisation)
+	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+	glBindVertexArray(0);
+}
+
+/* Met en place les uniform pour les shaders */
+void Model::updateUniform(GLFWwindow* window)
+{
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
 
 	auto program = shader.GetProgram();
 	glUseProgram(program);
 
+	const float fov = 45.0f * M_PI / 180.0f;
+	const float f = 1.0f / tanf(fov / 2.0f);
+	const float* projectionMatrix = getProjectionMatrix(0.1f, 100.0f, float(width) / float(height), f);
+
+	//TODO: Faire la matrice MVP ici (pour éviter les calculs dans le shader)
+	GLint proj = glGetUniformLocation(program, "u_projection");
+	glUniformMatrix4fv(proj, 1, false, projectionMatrix);
+
+	GLint position = glGetUniformLocation(program, "u_world");
 	float* worldPosition = this->position.getWorldMatrix();
+	glUniformMatrix4fv(position, 1, false, worldPosition);
 
-	// Calcule de la matrice normale
-	GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
-	float* inversedWorldMatrix = (float*)malloc(sizeof(float) * 16);
-	float* normalMatrix = (float*)malloc(sizeof(float) * 16);
-	inverse(worldPosition, inversedWorldMatrix);
-	MatrixTranspose(inversedWorldMatrix, normalMatrix);
-	glUniformMatrix4fv(normalMatrixLoc, 1, false, normalMatrix);
+	GLint view = glGetUniformLocation(program, "u_view");
+	float* viewMatrix = this->camera->getLookAtMatrix();
+	glUniformMatrix4fv(view, 1, false, viewMatrix);
 
-	// Gestion de la lumière
-	GLint ligtPos = glGetUniformLocation(program, "u_lightPos");
-	glUniform3fv(ligtPos, 1, this->light.position);
-	GLint ambiant = glGetUniformLocation(program, "u_ambiantColor");
-	glUniform4fv(ambiant, 1, this->light.ambientColor);
-	GLint diffuse = glGetUniformLocation(program, "u_diffuseColor");
-	glUniform4fv(diffuse, 1, this->light.diffuseColor);
-	GLint specular = glGetUniformLocation(program, "u_specularColor");
-	glUniform4fv(specular, 1, this->light.specularColor);
+	GLint camPos = glGetUniformLocation(program, "u_cameraPos");
+	vec3 pos = this->camera->getPosition();
+	glUniform3fv(camPos, 1, pos.toArray());
 
-	// Gestion des Materiels
-	GLint materialAmbient = glGetUniformLocation(program, "u_material.ambient");
-	glUniform3fv(materialAmbient, 1, this->mat.ambient);
-	GLint materialDiffuse = glGetUniformLocation(program, "u_material.diffuse");
-	glUniform3fv(materialDiffuse, 1, this->mat.diffuse);
-	GLint materialSpecular = glGetUniformLocation(program, "u_material.specular");
-	glUniform3fv(materialSpecular, 1, this->mat.specular);
-	GLint materialShininess = glGetUniformLocation(program, "u_material.shininess");
-	glUniform1f(materialShininess, this->mat.shininess);
-}
-
-void ModelWithMat::setMaterial(Material mat)
-{
-	this->mat = mat;
+	// Gestion de la couleur
+	GLint colorLoc = glGetUniformLocation(program, "u_color");
+	glUniform4fv(colorLoc, 1, this->color);
 }

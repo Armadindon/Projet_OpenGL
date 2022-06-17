@@ -17,6 +17,7 @@
 #include "headers/Vertex.h"
 #include "headers/Transform.h"
 #include "headers/Object3D.h"
+#include "Model.h"
 #include "headers/Light.h"
 #include "headers/Vector.h"
 #include "Camera.h"
@@ -34,8 +35,9 @@ GLuint TexID;
 
 Transform tf;
 
-Object3D sphere, lightCube, cube;
-Camera cam;
+Model lightCube;
+ModelWithMat sphere, cube;
+Camera *cam;
 
 //Paramètres globaux
 float ligtCubeColor[] = { 1.f, 1.f, 1.f, 1.f };
@@ -82,7 +84,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 */
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
-	cam.mouse_callback(window, xpos, ypos);
+	cam->mouse_callback(window, xpos, ypos);
 }
 
 bool Initialise(GLFWwindow* window)
@@ -102,7 +104,7 @@ bool Initialise(GLFWwindow* window)
 	glEnable(GL_CULL_FACE);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	cam = Camera(
+	cam = new Camera(
 		{ 0.f, 0.f, 0.f }, //position
 		{ 0.f, 0.f, -1.f }, //front
 		{ 0.0f, 1.0f, 0.0f }, //up
@@ -110,13 +112,13 @@ bool Initialise(GLFWwindow* window)
 	);
 
 	Transform lightCubeTransform = Transform({ lightPose[0], lightPose[1], lightPose[2] }, { 0.f, 0.f, 0.f, 0.f }, { .5f,.5f,.5f });
-	lightCube = Object3D("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, light, ligtCubeColor, &cam);
+	lightCube = Model("../models/cube/cube.obj", "../models/cube", lightShader, lightCubeTransform, ligtCubeColor, cam);
 
 	Transform sphereTransform = Transform({ -2.5f, 0.f, -10.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	sphere = Object3D("../models/sphere/sphere.obj", "../models/sphere", modelShader, sphereTransform, light, sphereColor, &cam);
+	sphere = ModelWithMat("../models/sphere/sphere.obj", "../models/sphere", modelShader, sphereTransform, light, sphereColor, cam);
 
 	Transform cubeTransform = Transform({ 2.5f, 0.f, -12.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
-	cube = Object3D("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, light, cubeColor, &cam);
+	cube = ModelWithMat("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, light, cubeColor, cam);
 
 	//glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
@@ -150,7 +152,7 @@ void Render(GLFWwindow* window)
 }
 
 void Update(GLFWwindow* window) {
-	cam.processInput(window);
+	cam->processInput(window);
 }
 
 
