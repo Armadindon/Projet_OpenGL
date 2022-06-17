@@ -1,4 +1,3 @@
-#include "../headers/Transform.h"
 
 void Transform::setTranslation(vec3 translation)
 {
@@ -32,15 +31,16 @@ vec3 Transform::getScale()
 
 float* Transform::getWorldMatrix()
 {
-	const float* translationMatrix = getTranslationMatrix(this->translation.x, this->translation.y, this->translation.z);
-	const float* rotationMatrix = getRotationMatrix(this->rotation.x, this->rotation.y, this->rotation.z, this->rotation.theta);
-	const float* scaleMatrix = getScaleMatrix(this->scale.x, this->scale.y, this->scale.z);
-
+	Matrix4 M({});
+	Matrix4 translationMatrix = M.getTranslationMatrix(this->translation.x, this->translation.y, this->translation.z);
+	Matrix4 rotationMatrix = M.getRotationMatrix(this->rotation.x, this->rotation.y, this->rotation.z, this->rotation.theta);
+	Matrix4 scaleMatrix = M.getScaleMatrix(this->scale.x, this->scale.y, this->scale.z);
+	
 	float* result = (float*)malloc(sizeof(float) * 16);
 	float* worldMatrix = (float*)malloc(sizeof(float) * 16);
 
-	MatrixMultiply(translationMatrix, rotationMatrix, result);
-	MatrixMultiply(result, scaleMatrix, worldMatrix);
+	MatrixMultiply(translationMatrix.getMatrixValue(), rotationMatrix.getMatrixValue(), result);
+	MatrixMultiply(result, scaleMatrix.getMatrixValue(), worldMatrix);
 
 	return worldMatrix;
 }
