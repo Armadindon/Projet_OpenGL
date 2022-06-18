@@ -151,6 +151,7 @@
     <ClCompile Include="implementations\Camera.cpp" />
     <ClCompile Include="implementations\Matrix.cpp" />
     <ClCompile Include="implementations\Model.cpp" />
+    <ClCompile Include="implementations\ModelWithCubemap.cpp" />
     <ClCompile Include="implementations\Object3D.cpp" />
     <ClCompile Include="implementations\Transform.cpp" />
     <ClCompile Include="implementations\Vector.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="headers\Light.h" />
     <ClInclude Include="headers\Material.h" />
     <ClInclude Include="headers\Matrix.h" />
+    <ClInclude Include="headers\ModelWithCubemap.h" />
     <ClInclude Include="headers\Object3D.h" />
     <ClInclude Include="headers\Transform.h" />
     <ClInclude Include="headers\Triangle.h" />
@@ -177,6 +179,8 @@
     <None Include="shaders\3DModel.vert" />
     <None Include="shaders\LightShader.frag" />
     <None Include="shaders\LightShader.vert" />
+    <None Include="shaders\Skybox.frag" />
+    <None Include="shaders\Skybox.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

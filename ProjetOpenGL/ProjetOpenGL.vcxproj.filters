@@ -29,6 +29,9 @@
     <ClCompile Include="implementations\Vector.cpp">
       <Filter>implementations</Filter>
     </ClCompile>
+    <ClCompile Include="implementations\ModelWithCubemap.cpp">
+      <Filter>implementations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Vertex.h">
@@ -73,6 +76,9 @@
     <ClInclude Include="..\common\ExampleMaterial.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="headers\ModelWithCubemap.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">
@@ -99,6 +105,12 @@
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\LightShader.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\Skybox.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\Skybox.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

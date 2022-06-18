@@ -21,6 +21,7 @@
 #include "headers/Light.h"
 #include "headers/Vector.h"
 #include "headers/Camera.h"
+#include "headers/ModelWithCubemap.h"
 #include "../common/ExampleMaterial.h"
 
 
@@ -28,8 +29,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
-GLShader modelShader, lightShader;
-
+GLShader modelShader, lightShader, skyboxShader;
 
 GLuint TexID;
 
@@ -37,6 +37,7 @@ Transform tf;
 
 Model lightCube;
 ModelWithMat sphere, cube;
+ModelWithCubemap skybox;
 Camera *cam;
 
 //Paramètres globaux
@@ -45,6 +46,17 @@ float sphereColor[] = { 0.9882f, 0.7294f, 0.012f, 1.f };
 float cubeColor[] = { 1.f, 0.f, 0.f, 1.f };
 
 float lightPose[] = { 0.f, 0.f, -10.f };
+
+// https://www.humus.name/index.php?page=Textures
+std::vector<std::string> textureFaces
+{
+	"../textures/yokohama/right.jpg",
+	"../textures/yokohama/left.jpg",
+	"../textures/yokohama/top.jpg",
+	"../textures/yokohama/bottom.jpg",
+	"../textures/yokohama/front.jpg",
+	"../textures/yokohama/back.jpg",
+};
 
 LightParams light = {
 	{ lightPose[0], lightPose[1], lightPose[2] }, // Même posiotion que lightPose
@@ -99,6 +111,10 @@ bool Initialise(GLFWwindow* window)
 	lightShader.LoadFragmentShader("shaders/LightShader.frag");
 	lightShader.Create();
 
+	skyboxShader.LoadVertexShader("shaders/Skybox.vert");
+	skyboxShader.LoadFragmentShader("shaders/Skybox.frag");
+	skyboxShader.Create();
+
 	//On active le test de profondeur et le face culling
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -119,6 +135,8 @@ bool Initialise(GLFWwindow* window)
 
 	Transform cubeTransform = Transform({ 2.5f, 0.f, -12.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
 	cube = ModelWithMat("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, light, cubeColor, cam);
+
+	skybox = ModelWithCubemap("../models/skybox/skybox.obj", "../models/skybox", textureFaces, skyboxShader, lightCubeTransform, ligtCubeColor, cam);
 
 	//glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
@@ -142,6 +160,8 @@ void Render(GLFWwindow* window)
 	glViewport(0, 0, width, height);
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	skybox.render(window);
 
 	lightCube.render(window);
 	sphere.render(window);

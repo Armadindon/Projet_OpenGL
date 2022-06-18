@@ -29,7 +29,7 @@ protected:
 	float* color;
 	Camera* camera;
 
-	void init();
+	virtual void init();
 	virtual void loadObjFile(const char* filePath, const char* materialFolder);
 	virtual void updateUniform(GLFWwindow* window);
 	virtual void initAttribLocation();
@@ -46,7 +46,7 @@ public:
 		this->camera = new Camera();
 	}
 	Model(const char* model, const char* materialFolder, GLShader shader, Transform tf, float* color, Camera* cam);
-	void render(GLFWwindow* window);
+	virtual void render(GLFWwindow* window);
 	
 };
 
