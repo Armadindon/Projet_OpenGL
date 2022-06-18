@@ -1,51 +1,5 @@
 #include "..\headers\ModelWithCubemap.h"
 
-//Pour des tests
-float skyboxVertices[] = {
-    // positions          
-    -1.0f,  1.0f, -1.0f,
-    -1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-
-    -1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
-
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-
-    -1.0f, -1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
-
-    -1.0f,  1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f, -1.0f,
-
-    -1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-     1.0f, -1.0f,  1.0f
-};
-
 
 void ModelWithCubemap::loadCubeMapTexture()
 {
@@ -89,7 +43,7 @@ void ModelWithCubemap::init()
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER
-		, vertices.size() * sizeof(Vertex), &skyboxVertices, GL_STATIC_DRAW);
+		, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 	
     loadCubeMapTexture();
 
@@ -103,7 +57,7 @@ void ModelWithCubemap::init()
 
 void ModelWithCubemap::initAttribLocation()
 {
-    const size_t stride = sizeof(float) * 3;
+    const size_t stride = sizeof(Vertex);
     auto program = shader.GetProgram();
 
     // Passage des attributs de shader
@@ -160,7 +114,7 @@ void ModelWithCubemap::render(GLFWwindow* window)
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID); //On set la texture
 
     // Quand l'IBO sera recrée, utiliser glDrawElements (optimisation)
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
     glDepthMask(GL_TRUE);
     glBindVertexArray(0);
