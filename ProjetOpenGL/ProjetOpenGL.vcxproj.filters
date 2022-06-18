@@ -30,6 +30,7 @@
       <Filter>implementations</Filter>
     </ClCompile>
     <ClCompile Include="implementations\Matrix4.cpp" />
+    <ClCompile Include="implementations\ModelWithCubemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Vertex.h">
@@ -77,6 +78,7 @@
     <ClInclude Include="headers\Matrix4.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="headers\ModelWithCubemap.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">

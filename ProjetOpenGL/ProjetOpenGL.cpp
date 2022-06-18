@@ -14,6 +14,7 @@
 #include "../common/GLShader.h"
 
 #include "headers/Matrix.h"
+#include "headers/Matrix4.h"
 #include "headers/Vertex.h"
 #include "headers/Transform.h"
 #include "headers/Object3D.h"

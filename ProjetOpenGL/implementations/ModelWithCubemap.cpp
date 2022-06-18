@@ -123,15 +123,15 @@ void ModelWithCubemap::updateUniform(GLFWwindow* window)
 
     const float fov = 45.0f * M_PI / 180.0f;
     const float f = 1.0f / tanf(fov / 2.0f);
-    const float* projectionMatrix = getProjectionMatrix(0.1f, 100.0f, float(width) / float(height), f);
+    Matrix4 projectionMatrix = getProjectionMatrix(0.1f, 100.0f, float(width) / float(height), f);
 
     //TODO: Faire la matrice MVP ici (pour éviter les calculs dans le shader)
     GLint proj = glGetUniformLocation(program, "u_projection");
-    glUniformMatrix4fv(proj, 1, false, projectionMatrix);
+    glUniformMatrix4fv(proj, 1, false, projectionMatrix.getMatrixValue());
 
     GLint view = glGetUniformLocation(program, "u_view");
-    float* viewMatrix = this->camera->getLookAtMatrix();
-    glUniformMatrix4fv(view, 1, false, viewMatrix);
+    Matrix4 viewMatrix = this->camera->getLookAtMatrix();
+    glUniformMatrix4fv(view, 1, false, viewMatrix.getMatrixValue());
 
     GLint tex = glGetUniformLocation(program, "u_skybox");
     glUniform1i(tex, 0);
