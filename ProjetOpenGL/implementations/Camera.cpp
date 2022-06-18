@@ -83,3 +83,13 @@ const vec3 Camera::getPosition()
 	return this->position;
 }
 
+void Camera::setSpeed(float speed)
+{
+	this->speed = speed;
+}
+
+void Camera::setSensitivity(float sensitivity)
+{
+	this->sensitivity = sensitivity;
+}
+

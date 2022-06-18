@@ -7,8 +7,11 @@
 #include <cmath>
 #include <math.h>
 
-#include "GL/glew.h"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 
+#include "GL/glew.h"
 #include <GLFW/glfw3.h>
 
 #include "../common/ExampleMaterial.h"
@@ -30,6 +33,20 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
+// Pour activer / désactiver la souris
+bool showMouse = false;
+
+//Paramètres GUI
+float cameraSpeed = 5.f, cameraSensibility = .1f;
+
+int selectedSkybox = 0;
+std::string possibleSkyboxes[] = {
+	"yokohama",
+	"skybox",
+	"lycksele"
+};
+
+
 GLShader modelShader, lightShader, skyboxShader, textureShader;
 
 Transform tf;
@@ -38,7 +55,7 @@ Model lightCube;
 ModelWithMat sphere, cube;
 ModelWithTexture fox;
 ModelWithCubemap skybox;
-Camera *cam;
+Camera* cam;
 
 //Paramètres globaux
 float ligtCubeColor[] = { 1.f, 1.f, 1.f, 1.f };
@@ -50,41 +67,62 @@ float lightPose[] = { 0.f, 0.f, -10.f };
 // https://www.humus.name/index.php?page=Textures
 std::vector<std::string> textureFaces
 {
-	"../textures/yokohama/right.jpg",
-	"../textures/yokohama/left.jpg",
-	"../textures/yokohama/top.jpg",
-	"../textures/yokohama/bottom.jpg",
-	"../textures/yokohama/front.jpg",
-	"../textures/yokohama/back.jpg",
+	"../textures/" + possibleSkyboxes[selectedSkybox] + "/right.jpg",
+	"../textures/" + possibleSkyboxes[selectedSkybox] + "/left.jpg",
+	"../textures/" + possibleSkyboxes[selectedSkybox] + "/top.jpg",
+	"../textures/" + possibleSkyboxes[selectedSkybox] + "/bottom.jpg",
+	"../textures/" + possibleSkyboxes[selectedSkybox] + "/front.jpg",
+	"../textures/" + possibleSkyboxes[selectedSkybox] + "/back.jpg",
 };
+
+float ambiant[] = { .2f, .2f, .2f };
+float diffuse[] = { .4f, .4f, .4f };
+float specular[] = { 1.f, 1.f, 1.f };
 
 LightParams light = {
-	{ lightPose[0], lightPose[1], lightPose[2] }, // Même posiotion que lightPose
-	{.4f, .4f, .4f}, // Couleur ambiante -> Peu forte
-	{.8f, .8f, .8f}, // Couleur de la lumière -> importante
-	{1.f, 1.f, 1.f}, // Couleur spéculaire -> Ultra forte
+	lightPose, // Même position que lightPose
+	ambiant, // Couleur ambiante -> Peu forte
+	diffuse, // Couleur de la lumière -> importante
+	specular, // Couleur spéculaire -> Ultra forte
 };
 
-void loadTexFromFile(const char* filename) {
-
-}
-
 /* Fonction appelée lorsque l'utilisateur clique sur son clavier */
-/* Le déplacement n'est pas smooth comme ça */
-/*
+/* Le déplacement n'est pas smooth comme ça, donc on le traite dans le update, mais fonctionne bien pour le reste */
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	cam.processInput(key);
+	if (key == GLFW_KEY_LEFT_CONTROL && action == GLFW_PRESS) {
+		showMouse = !showMouse;
+		if (showMouse) glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		else glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
 }
-*/
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
-	cam->mouse_callback(window, xpos, ypos);
+
+	if (showMouse) {
+		//On forward les infos à imgui
+		ImGui::GetIO().MousePos.x = float(xpos);
+		ImGui::GetIO().MousePos.y = float(ypos);
+	}
+
+	//Si la souris est présente, on ne prend pas en compte le déplacement
+	if (!showMouse) cam->mouse_callback(window, xpos, ypos);
 }
 
 bool Initialise(GLFWwindow* window)
 {
 	GLenum ret = glewInit();
+
+	//On initialise ImGUI
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	// Setup Platform/Renderer bindings
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 120");
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
 
 	modelShader.LoadVertexShader("shaders/3DModel.vert");
 	modelShader.LoadFragmentShader("shaders/3DModel.frag");
@@ -112,7 +150,9 @@ bool Initialise(GLFWwindow* window)
 		{ 0.f, 0.f, 0.f }, //position
 		{ 0.f, 0.f, -1.f }, //front
 		{ 0.0f, 1.0f, 0.0f }, //up
-		window
+		window,
+		cameraSpeed,
+		cameraSensibility
 	);
 
 	Transform lightCubeTransform = Transform({ lightPose[0], lightPose[1], lightPose[2] }, { 0.f, 0.f, 0.f, 0.f }, { .5f,.5f,.5f });
@@ -129,7 +169,7 @@ bool Initialise(GLFWwindow* window)
 
 	skybox = ModelWithCubemap("../models/skybox/skybox.obj", "../models/skybox", textureFaces, skyboxShader, lightCubeTransform, ligtCubeColor, cam);
 
-	//glfwSetKeyCallback(window, key_callback);
+	glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
 
 	return true;
@@ -141,6 +181,10 @@ void Terminate()
 	lightShader.Destroy();
 	skyboxShader.Destroy();
 	textureShader.Destroy();
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void Render(GLFWwindow* window)
@@ -152,6 +196,11 @@ void Render(GLFWwindow* window)
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//On indique une nouvelle frame à Imgui
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
 	skybox.render(window);
 
 	lightCube.render(window);
@@ -162,12 +211,60 @@ void Render(GLFWwindow* window)
 	cube.render(window);
 
 	fox.render(window);
+	//On affiche la nouvelle fenetre Imgui
+	ImGui::Begin("Fenetre des parametres");
+	ImGui::Text("Les parametres ne sont pas accessibles en mode \"Camera\"");
+	ImGui::Text("Pour changer de mode ! Appuyez sur ctrl gauche");
+
+	if (ImGui::TreeNode("Parametres Couleurs")) {
+		ImGui::ColorEdit4("Couleur du cube de lumière", ligtCubeColor);
+		ImGui::ColorEdit4("Couleur du cube", cubeColor);
+		ImGui::ColorEdit4("Couleur de la sphere", sphereColor);
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Parametres Lumiere")) {
+		ImGui::ColorEdit3("Couleur de la lumiere ambiante", ambiant);
+		ImGui::ColorEdit3("Couleur de la lumiere diffuse", diffuse);
+		ImGui::ColorEdit3("Couleur de la lumiere speculaire", specular);
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Parametres Camera")) {
+		if (ImGui::SliderFloat("Camera Speed", &cameraSpeed, 0.0f, 10.0f)) cam->setSpeed(cameraSpeed);
+		if(ImGui::SliderFloat("Camera Sensibility", &cameraSensibility, 0.0f, 1.0f)) cam->setSensitivity(cameraSensibility);
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Parametres Skybox"))
+	{
+		for (int n = 0; n < 3; n++)
+		{
+			if (ImGui::Selectable(possibleSkyboxes[n].c_str(), selectedSkybox == n)) {
+				selectedSkybox = n;
+				skybox.changeTexture({
+					"../textures/" + possibleSkyboxes[selectedSkybox] + "/right.jpg",
+					"../textures/" + possibleSkyboxes[selectedSkybox] + "/left.jpg",
+					"../textures/" + possibleSkyboxes[selectedSkybox] + "/top.jpg",
+					"../textures/" + possibleSkyboxes[selectedSkybox] + "/bottom.jpg",
+					"../textures/" + possibleSkyboxes[selectedSkybox] + "/front.jpg",
+					"../textures/" + possibleSkyboxes[selectedSkybox] + "/back.jpg",
+					});
+			}
+
+		}
+		ImGui::TreePop();
+	}
+
+	ImGui::End();
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void Update(GLFWwindow* window) {
-	cam->processInput(window);
+	if (!showMouse) cam->processInput(window);
 }
-
 
 int main(void)
 {

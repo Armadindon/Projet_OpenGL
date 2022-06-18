@@ -35,7 +35,7 @@ protected:
 
 
 public:
-	ModelWithMat() : Model(), light({ 0.f, 0.f, 0.f, 0.f }), mat({ nullptr, nullptr, nullptr, 0.f }) { };
+	ModelWithMat() : Model(), light({ nullptr }), mat({ nullptr, nullptr, nullptr, 0.f }) { };
 	ModelWithMat(const char* model, const char* materialFolder, GLShader shader, Transform tf, LightParams light, float* color, Camera* cam);
 	void setMaterial(Material mat);
 };

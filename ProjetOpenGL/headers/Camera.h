@@ -27,10 +27,8 @@ public:
 		this->mouseLastY = 360;
 	};
 
-	Camera(vec3 position, vec3 front, vec3 up, GLFWwindow* window) : position(position), front(front), up(up), yaw(-90.f), pitch(0), firstMouse(true)
+	Camera(vec3 position, vec3 front, vec3 up, GLFWwindow* window, float speed, float sensitivity) : position(position), front(front), up(up), yaw(-90.f), pitch(0), firstMouse(true), sensitivity(sensitivity), speed(speed)
 	{
-		sensitivity = .1f;
-		speed = 5.f;
 		this->lastFrame = glfwGetTime();
 		int width, height;
 
@@ -44,6 +42,8 @@ public:
 	void processInput(GLFWwindow* window);
 	void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 	const vec3 getPosition();
+	void setSpeed(float speed);
+	void setSensitivity(float sensitivity);
 };
 
 #endif

@@ -35,6 +35,27 @@
     <ClCompile Include="implementations\Matrix4.cpp">
       <Filter>implementations</Filter>
     </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui.cpp">
+      <Filter>implementations\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui_demo.cpp">
+      <Filter>implementations\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui_draw.cpp">
+      <Filter>implementations\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui_impl_glfw.cpp">
+      <Filter>implementations\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui_impl_opengl3.cpp">
+      <Filter>implementations\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui_tables.cpp">
+      <Filter>implementations\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\imgui\imgui_widgets.cpp">
+      <Filter>implementations\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Vertex.h">
@@ -85,6 +106,33 @@
     <ClInclude Include="headers\ModelWithCubemap.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\libs\imgui\imconfig.h">
+      <Filter>headers\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imgui.h">
+      <Filter>headers\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imgui_impl_glfw.h">
+      <Filter>headers\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imgui_impl_opengl3.h">
+      <Filter>headers\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imgui_internal.h">
+      <Filter>headers\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imstb_rectpack.h">
+      <Filter>headers\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imstb_textedit.h">
+      <Filter>headers\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imstb_truetype.h">
+      <Filter>headers\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libs\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>headers\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">
@@ -98,6 +146,12 @@
     </Filter>
     <Filter Include="implementations">
       <UniqueIdentifier>{b2466343-0234-4180-8a7c-10d7e3d5e3ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers\imgui">
+      <UniqueIdentifier>{789571d8-19bc-4aaa-b6c5-4758f0f8f522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="implementations\imgui">
+      <UniqueIdentifier>{28caa8d6-47ee-470f-a7a7-5b6566d8b803}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

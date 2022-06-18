@@ -118,3 +118,9 @@ void ModelWithCubemap::render(GLFWwindow* window)
     glDepthMask(GL_TRUE);
     glBindVertexArray(0);
 }
+
+void ModelWithCubemap::changeTexture(std::vector<std::string> textureFaces)
+{
+    this->textureFaces = textureFaces;
+    loadCubeMapTexture();
+}

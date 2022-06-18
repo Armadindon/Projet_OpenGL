@@ -19,5 +19,6 @@ public:
 	ModelWithCubemap() : Model(), textureID(0) { };
 	ModelWithCubemap(const char* model, const char* materialFolder, std::vector<std::string> cubemap, GLShader shader, Transform tf, float* color, Camera* cam);
 	void render(GLFWwindow* window);
+	void changeTexture(std::vector<std::string> textureFaces);
 };
 
