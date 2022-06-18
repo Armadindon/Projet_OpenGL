@@ -149,7 +149,6 @@
     <ClCompile Include="..\common\toolsbox.cpp" />
     <ClCompile Include="headers\Vector.cpp" />
     <ClCompile Include="implementations\Camera.cpp" />
-    <ClCompile Include="implementations\Matrix.cpp" />
     <ClCompile Include="implementations\Matrix4.cpp" />
     <ClCompile Include="implementations\Model.cpp" />
     <ClCompile Include="implementations\ModelWithCubemap.cpp" />
@@ -166,7 +165,6 @@
     <ClInclude Include="headers\Camera.h" />
     <ClInclude Include="headers\Light.h" />
     <ClInclude Include="headers\Material.h" />
-    <ClInclude Include="headers\Matrix.h" />
     <ClInclude Include="headers\Matrix4.h" />
     <ClInclude Include="headers\ModelWithCubemap.h" />
     <ClInclude Include="headers\ModelWithTexture.h" />

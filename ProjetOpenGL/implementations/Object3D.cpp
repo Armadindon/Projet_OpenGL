@@ -140,15 +140,7 @@ void ModelWithMat::updateUniform(GLFWwindow* window)
 
 	// Calcule de la matrice normale
 	GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
-	float* tempInversedWorldMatrix = (float*)malloc(sizeof(float) * 16);
-	float* tempNormalMatrix = (float*)malloc(sizeof(float) * 16);
-	inverseMatrix(worldPosition.getMatrixValue(), tempInversedWorldMatrix);
-	Matrix4 inversedWorldMatrix(tempInversedWorldMatrix);
-	MatrixTranspose(inversedWorldMatrix.getMatrixValue(), tempNormalMatrix);
-	Matrix4 normalMatrix(tempNormalMatrix);
-	free(tempInversedWorldMatrix);
-	free(tempNormalMatrix);
-
+	Matrix4 normalMatrix = Matrix4(worldPosition.getMatrixValue()).inverse().transpose();
 	glUniformMatrix4fv(normalMatrixLoc, 1, false, normalMatrix.getMatrixValue());
 
 	// Gestion de la lumière

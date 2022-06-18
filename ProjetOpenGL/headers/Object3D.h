@@ -13,7 +13,6 @@
 #include "../../common/toolsbox.h"
 #include "Material.h"
 #include "Light.h"
-#include "Matrix.h"
 #include "Model.h"
 #include "Camera.h"
 #include "Matrix4.h"

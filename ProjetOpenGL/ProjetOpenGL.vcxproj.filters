@@ -14,9 +14,6 @@
     <ClCompile Include="implementations\Camera.cpp">
       <Filter>implementations</Filter>
     </ClCompile>
-    <ClCompile Include="implementations\Matrix.cpp">
-      <Filter>implementations</Filter>
-    </ClCompile>
     <ClCompile Include="implementations\Model.cpp">
       <Filter>implementations</Filter>
     </ClCompile>
@@ -50,9 +47,6 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="headers\Material.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Matrix.h">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="..\common\toolsbox.h">

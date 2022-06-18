@@ -14,7 +14,6 @@
 #include "../common/ExampleMaterial.h"
 #include "../common/GLShader.h"
 
-#include "headers/Matrix.h"
 #include "headers/Matrix4.h"
 #include "headers/Vertex.h"
 #include "headers/Transform.h"

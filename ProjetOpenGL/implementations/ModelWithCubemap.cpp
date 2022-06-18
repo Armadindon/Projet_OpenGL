@@ -77,7 +77,7 @@ void ModelWithCubemap::updateUniform(GLFWwindow* window)
 
     const float fov = 45.0f * M_PI / 180.0f;
     const float f = 1.0f / tanf(fov / 2.0f);
-    Matrix4 projectionMatrix = getProjectionMatrix(0.1f, 100.0f, float(width) / float(height), f);
+    Matrix4 projectionMatrix = Matrix4::getProjectionMatrix(0.1f, 100.0f, float(width) / float(height), f);
 
     //TODO: Faire la matrice MVP ici (pour éviter les calculs dans le shader)
     GLint proj = glGetUniformLocation(program, "u_projection");
