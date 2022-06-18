@@ -108,6 +108,7 @@ bool Initialise(GLFWwindow* window)
 	//On active le test de profondeur et le face culling
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_FRAMEBUFFER_SRGB);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	cam = new Camera(

@@ -17,7 +17,7 @@ void ModelWithTexture::loadTexture()
     int w, h;
     uint8_t* data = stbi_load(fileToLoad, &w, &h, nullptr, STBI_rgb_alpha);
     if (data) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
         stbi_image_free(data);
     }
