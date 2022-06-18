@@ -181,6 +181,8 @@
     <None Include="shaders\3DModel.vert" />
     <None Include="shaders\LightShader.frag" />
     <None Include="shaders\LightShader.vert" />
+    <None Include="shaders\Skybox.frag" />
+    <None Include="shaders\Skybox.vert" />
     <None Include="shaders\TextureShader.frag" />
     <None Include="shaders\TextureShader.vert" />
   </ItemGroup>

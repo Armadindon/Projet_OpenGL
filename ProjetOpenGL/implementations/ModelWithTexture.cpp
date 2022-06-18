@@ -83,17 +83,17 @@ void ModelWithTexture::updateUniform(GLFWwindow* window)
     GLint textureLocation = glGetUniformLocation(program, "u_sampler");
     glUniform1i(textureLocation, 0);
 
-    //TODO: Faire la matrice MVP ici (pour éviter les calculs dans le shader)
-    GLint proj = glGetUniformLocation(program, "u_projection");
-    glUniformMatrix4fv(proj, 1, false, projectionMatrix.getMatrixValue());
-
     GLint position = glGetUniformLocation(program, "u_world");
     Matrix4 worldPosition = this->position.getWorldMatrix();
     glUniformMatrix4fv(position, 1, false, worldPosition.getMatrixValue());
 
-    GLint view = glGetUniformLocation(program, "u_view");
     Matrix4 viewMatrix = this->camera->getLookAtMatrix();
-    glUniformMatrix4fv(view, 1, false, viewMatrix.getMatrixValue());
+
+    GLint mvp = glGetUniformLocation(program, "u_mvp");
+    Matrix4 mvpMatrix = projectionMatrix.getMatrixValue();
+    mvpMatrix = mvpMatrix * viewMatrix.getMatrixValue();
+    mvpMatrix = mvpMatrix * worldPosition.getMatrixValue();
+    glUniformMatrix4fv(mvp, 1, false, mvpMatrix.getMatrixValue());
 
     // Calcule de la matrice normale
     GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");

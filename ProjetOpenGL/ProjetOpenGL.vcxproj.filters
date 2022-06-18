@@ -119,5 +119,11 @@
     <None Include="shaders\TextureShader.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\Skybox.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\Skybox.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -176,7 +176,6 @@ void Model::updateUniform(GLFWwindow* window)
 	const float f = 1.0f / tanf(fov / 2.0f);
 	Matrix4 projectionMatrix = Matrix4::getProjectionMatrix(0.1f, 100.0f, float(width) / float(height), f);
 
-	//TODO: Faire la matrice MVP ici (pour éviter les calculs dans le shader)
 	GLint proj = glGetUniformLocation(program, "u_projection");
 	glUniformMatrix4fv(proj, 1, false, projectionMatrix.getMatrixValue());
 
@@ -187,6 +186,12 @@ void Model::updateUniform(GLFWwindow* window)
 	GLint view = glGetUniformLocation(program, "u_view");
 	Matrix4 viewMatrix = this->camera->getLookAtMatrix();
 	glUniformMatrix4fv(view, 1, false, viewMatrix.getMatrixValue());
+
+	GLint mvp = glGetUniformLocation(program, "u_mvp");
+	Matrix4 mvpMatrix = projectionMatrix.getMatrixValue();
+	mvpMatrix = mvpMatrix * viewMatrix.getMatrixValue();
+	mvpMatrix = mvpMatrix * worldPosition.getMatrixValue();
+	glUniformMatrix4fv(mvp, 1, false, mvpMatrix.getMatrixValue());
 
 	GLint camPos = glGetUniformLocation(program, "u_cameraPos");
 	vec3 pos = this->camera->getPosition();
