@@ -8,6 +8,7 @@
 #include <GL/glew.h>
 #include <vector>
 #include <iostream>
+#include <set>
 
 #include "../headers/Light.h"
 #include "../headers/Matrix4.h"
@@ -21,9 +22,10 @@ class Model
 {
 protected:
 	//Render
-	GLuint VBO, VAO;
+	GLuint VBO, IBO, VAO;
 	GLShader shader;
 	std::vector<Vertex> vertices;
+	std::vector<int> indices;
 
 	//Data
 	Transform position;
@@ -34,9 +36,10 @@ protected:
 	virtual void loadObjFile(const char* filePath, const char* materialFolder);
 	virtual void updateUniform(GLFWwindow* window);
 	virtual void initAttribLocation();
+	void ComputeIndices(std::vector<Vertex> input);
 
 public:
-	Model() : VAO(0), VBO(0)
+	Model() : VAO(0), VBO(0), IBO(0)
 	{
 		this->color = (float*) malloc(sizeof(float) * 3);
 		if (this->color != nullptr) {

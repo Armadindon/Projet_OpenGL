@@ -121,11 +121,11 @@ void ModelWithMat::loadObjFile(const char* filePath, const char* materialFolder)
 			{normals[normalIndices[i]].x, normals[normalIndices[i]].y, normals[normalIndices[i]].z },
 			{uv[uvIndices[i]].x, uv[uvIndices[i]].y}
 				});
-
-			//TODO: Gestion des indices par la gestion des doublons dans les vertexs
 		}
 
 	}
+
+	ComputeIndices(this->vertices);
 }
 
 void ModelWithMat::updateUniform(GLFWwindow* window)

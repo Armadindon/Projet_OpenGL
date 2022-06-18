@@ -34,12 +34,14 @@ void ModelWithTexture::init()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER
 		, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+
+    //On crée l'IBO
+    glGenBuffers(1, &IBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(int), &indices[0], GL_STATIC_DRAW);
 	
     loadTexture();
-
-	//TODO: Recreer l'IBO
 	initAttribLocation();
-
 
 	glEnableVertexAttribArray(0);
 	glBindVertexArray(0);
@@ -132,9 +134,9 @@ void ModelWithTexture::render(GLFWwindow* window)
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID); //On set la texture
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
-    // Quand l'IBO sera recrée, utiliser glDrawElements (optimisation)
-    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0);
 }

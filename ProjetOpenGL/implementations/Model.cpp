@@ -106,12 +106,11 @@ void Model::loadObjFile(const char* filePath, const char* materialFolder)
 			{normals[normalIndices[i]].x, normals[normalIndices[i]].y, normals[normalIndices[i]].z },
 			{uv[uvIndices[i]].x, uv[uvIndices[i]].y}
 				});
-
-			//TODO: Gestion des indices par la gestion des doublons dans les vertexs
 		}
 
 	}
 
+	ComputeIndices(this->vertices);
 }
 
 void Model::init()
@@ -126,7 +125,11 @@ void Model::init()
 	glBufferData(GL_ARRAY_BUFFER
 		, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
-	//TODO: Recreer l'IBO
+	//On crée l'IBO
+	glGenBuffers(1, &IBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(int), &indices[0], GL_STATIC_DRAW);
+
 	initAttribLocation();
 
 	glEnableVertexAttribArray(0);
@@ -156,9 +159,9 @@ void Model::render(GLFWwindow* window)
 	updateUniform(window);
 
 	glBindVertexArray(VAO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
-	// Quand l'IBO sera recrée, utiliser glDrawElements (optimisation)
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);
 }
@@ -200,4 +203,32 @@ void Model::updateUniform(GLFWwindow* window)
 	// Gestion de la couleur
 	GLint colorLoc = glGetUniformLocation(program, "u_color");
 	glUniform4fv(colorLoc, 1, this->color);
+}
+
+void Model::ComputeIndices(std::vector<Vertex> input)
+{
+	std::vector<Vertex> vbuffer;
+	std::set<Vpair, CmpClass> vertices;
+	std::vector<int> indices;
+	int index = 0;
+
+	for (int i = 0; i < input.size(); i++)
+	{
+		std::set<Vpair>::iterator it = vertices.find(std::make_pair(input[i], 0/*this value doesn't matter*/));
+		if (it != vertices.end()) indices.push_back(it->second);
+		else
+		{
+			vertices.insert(std::make_pair(input[i], index));
+			indices.push_back(index++);
+		}
+	}
+
+	// Notice that the vertices in the set are not sorted by the index
+	// so you'll have to rearrange them like this:
+	vbuffer.resize(vertices.size());
+	for (std::set<Vpair>::iterator it = vertices.begin(); it != vertices.end(); it++)
+		vbuffer[it->second] = it->first;
+
+	this->indices = indices;
+	this->vertices = vbuffer;
 }
