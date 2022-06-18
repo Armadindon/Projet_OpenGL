@@ -33,8 +33,6 @@
 
 GLShader modelShader, lightShader, skyboxShader, textureShader;
 
-GLuint TexID;
-
 Transform tf;
 
 Model lightCube;
@@ -140,10 +138,10 @@ bool Initialise(GLFWwindow* window)
 
 void Terminate()
 {
-	glDeleteTextures(1, &TexID);
-
 	modelShader.Destroy();
 	lightShader.Destroy();
+	skyboxShader.Destroy();
+	textureShader.Destroy();
 }
 
 void Render(GLFWwindow* window)

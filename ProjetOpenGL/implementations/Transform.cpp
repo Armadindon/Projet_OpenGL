@@ -41,11 +41,6 @@ Matrix4 Transform::getWorldMatrix()
 	Matrix4 rotationMatrix = Matrix4::getRotationMatrix(this->rotation.x, this->rotation.y, this->rotation.z, this->rotation.theta);
 	Matrix4 scaleMatrix = Matrix4::getScaleMatrix(this->scale.x, this->scale.y, this->scale.z);
 	
-	float* result = (float*)malloc(sizeof(float) * 16);
-	float* tempWorldMatrix = (float*)malloc(sizeof(float) * 16);
-
-	MatrixMultiply(translationMatrix.getMatrixValue(), rotationMatrix.getMatrixValue(), result);
-	MatrixMultiply(result, scaleMatrix.getMatrixValue(), tempWorldMatrix);
-	Matrix4 WorldMatrix(tempWorldMatrix);
-	return WorldMatrix;
+	Matrix4 worldMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+	return worldMatrix;
 }

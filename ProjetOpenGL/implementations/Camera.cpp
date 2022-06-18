@@ -24,9 +24,9 @@ Matrix4 Camera::getLookAtMatrix()
 		-cameraPos.x, -cameraPos.y, -cameraPos.z, 1.f
 	};
 
-	float* tempLookAtMatrix = (float*) malloc(sizeof(float) * 16);
-	MatrixMultiply(staticLookAtMatrix1, staticLookAtMatrix2, tempLookAtMatrix);
-	Matrix4 lookAtMatrix(tempLookAtMatrix);
+	Matrix4 LookAtMatrix1 = Matrix4(staticLookAtMatrix1);
+	Matrix4 LookAtMatrix2 = Matrix4(staticLookAtMatrix2);
+	Matrix4 lookAtMatrix = LookAtMatrix1 * LookAtMatrix2;
 	return lookAtMatrix;
 }
 

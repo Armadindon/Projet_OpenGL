@@ -3,35 +3,85 @@
 #include <vector>
 #include <iterator>
 #include <string>
+#include <algorithm>    // std::swap
+#include "../../common/toolsbox.h"
 
 using std::vector; using std::copy;
 
 Matrix4::Matrix4(float* value) {
-	matrix = (float*)malloc(sizeof(float) * 16);
+	this->matrix = new float[16];
 
-	if(matrix){
-		for (int i = 0; i < 16;i++) {
-			matrix[i] = value[i];
-		}
+	// On copie les données dans la matrice
+	for (int i = 0; i < 16;i++) {
+		this->matrix[i] = value[i];
 	}
+}
+
+Matrix4::Matrix4(Matrix4 const& other) : Matrix4(other.matrix) { }
+
+Matrix4& Matrix4::operator=(Matrix4 other)
+{
+	swap(other);
+	return *this;
+}
+
+void Matrix4::swap(Matrix4& m) {
+	std::swap(this->matrix, m.matrix);
 }
 
 Matrix4::~Matrix4()
 {
-	if (matrix != NULL) {
-		//free(matrix);
-		matrix = NULL;
-	}
+	delete[] this->matrix;
 }
 
 float* Matrix4::getMatrixValue() {
-	return matrix;
+	return this->matrix;
 }
 
 void Matrix4::setMatrixValue(float* value) {
 	for (int i = 0; i < 16;i++) {
-		matrix[i] = value[i];
+		this->matrix[i] = value[i];
 	}
+}
+
+Matrix4 Matrix4::inverse()
+{
+	float* inversed = new float[16];
+	inverseMatrix(this->matrix, inversed);
+
+	//On libère l'ancienne matrice et on set les nouvelles valeurs
+	delete[] this->matrix;
+	this->matrix = inversed;
+
+	//On renvoie la matrice
+	return *this;
+}
+
+Matrix4 Matrix4::transpose()
+{
+	float* transposed = new float[16];
+	MatrixTranspose(this->matrix, transposed);
+
+	//On libère l'ancienne matrice et on set les nouvelles valeurs
+	delete[] this->matrix;
+	this->matrix = transposed;
+
+	//On renvoie la matrice
+	return *this;
+}
+
+Matrix4 Matrix4::operator*(Matrix4 mat)
+{
+	float* mutliplied = new float[16];
+
+	//On fait la mutliplication
+	MatrixMultiply(this->matrix, mat.matrix, mutliplied);
+
+	//On envoie le résultat en effaçant le tableau préalablement recopié dans le constructeur
+	Matrix4 result = Matrix4(mutliplied);
+	delete[] mutliplied;
+
+	return result;
 }
 
 Matrix4 Matrix4::getTranslationMatrix(float translationX, float translationY, float translationZ) {

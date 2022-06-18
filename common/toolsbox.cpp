@@ -100,7 +100,7 @@ float MatrixDet3(const float* Matrix) {
 
 }
 
-bool inverse(const float* MatrixIn, float* MatrixOut) {
+bool inverseMatrix(const float* MatrixIn, float* MatrixOut) {
 
 	float MI[16], MO[16];
 	convert4(MatrixIn, MI);

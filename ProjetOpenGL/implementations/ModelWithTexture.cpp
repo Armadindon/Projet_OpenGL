@@ -99,7 +99,7 @@ void ModelWithTexture::updateUniform(GLFWwindow* window)
     GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
     float* tempInversedWorldMatrix = (float*)malloc(sizeof(float) * 16);
     float* tempNormalMatrix = (float*)malloc(sizeof(float) * 16);
-    inverse(worldPosition.getMatrixValue(), tempInversedWorldMatrix);
+    inverseMatrix(worldPosition.getMatrixValue(), tempInversedWorldMatrix);
     Matrix4 inversedWorldMatrix(tempInversedWorldMatrix);
     MatrixTranspose(inversedWorldMatrix.getMatrixValue(), tempNormalMatrix);
     Matrix4 normalMatrix(tempNormalMatrix);
