@@ -86,7 +86,8 @@ void ModelWithMat::loadObjFile(const char* filePath, const char* materialFolder)
 
 	//Pour simplifier, on considère qu'il n'y a qu'un seul material par objet
 	//TODO: Possibilité d'ajouter un material par vertex
-	this->mat = materialList[0];
+
+	if(materialList.size() > 0) this->mat = materialList[0];
 
 	//On load ensuite les faces et on constitue le tableau des vertices
 	std::vector<Triangle> triangles;

@@ -29,7 +29,7 @@ public:
 	Camera(vec3 position, vec3 front, vec3 up, GLFWwindow* window) : position(position), front(front), up(up), yaw(-90.f), pitch(0), firstMouse(true)
 	{
 		sensitivity = .1f;
-		speed = 3.f;
+		speed = 5.f;
 		this->lastFrame = glfwGetTime();
 		int width, height;
 

@@ -31,6 +31,9 @@
     </ClCompile>
     <ClCompile Include="implementations\Matrix4.cpp" />
     <ClCompile Include="implementations\ModelWithCubemap.cpp" />
+    <ClCompile Include="implementations\ModelWithTexture.cpp">
+      <Filter>implementations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Vertex.h">
@@ -79,6 +82,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="headers\ModelWithCubemap.h" />
+    <ClInclude Include="headers\ModelWithTexture.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="shaders">
@@ -105,6 +111,12 @@
       <Filter>shaders</Filter>
     </None>
     <None Include="shaders\LightShader.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\TextureShader.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\TextureShader.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

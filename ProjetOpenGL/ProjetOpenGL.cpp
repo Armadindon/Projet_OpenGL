@@ -11,6 +11,7 @@
 
 #include <GLFW/glfw3.h>
 
+#include "../common/ExampleMaterial.h"
 #include "../common/GLShader.h"
 
 #include "headers/Matrix.h"
@@ -23,14 +24,14 @@
 #include "headers/Vector.h"
 #include "headers/Camera.h"
 #include "headers/ModelWithCubemap.h"
-#include "../common/ExampleMaterial.h"
+#include "headers/ModelWithTexture.h"
 
 
 // attention, ce define ne doit etre specifie que dans 1 seul fichier cpp
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
-GLShader modelShader, lightShader, skyboxShader;
+GLShader modelShader, lightShader, skyboxShader, textureShader;
 
 GLuint TexID;
 
@@ -38,6 +39,7 @@ Transform tf;
 
 Model lightCube;
 ModelWithMat sphere, cube;
+ModelWithTexture fox;
 ModelWithCubemap skybox;
 Camera *cam;
 
@@ -67,24 +69,7 @@ LightParams light = {
 };
 
 void loadTexFromFile(const char* filename) {
-	//On initialise la texture
-	glGenTextures(1, &TexID);
-	glBindTexture(GL_TEXTURE_2D, TexID);
 
-	// Filtrage bilineaire dans tous les cas (Minification et Magnification)
-	// les coordonnees de texture sont limitees a [0 ; 1[
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	int w, h;
-	uint8_t* data = stbi_load(filename, &w, &h, nullptr, STBI_rgb_alpha);
-	if (data) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-		stbi_image_free(data);
-	}
 }
 
 /* Fonction appelée lorsque l'utilisateur clique sur son clavier */
@@ -116,6 +101,10 @@ bool Initialise(GLFWwindow* window)
 	skyboxShader.LoadFragmentShader("shaders/Skybox.frag");
 	skyboxShader.Create();
 
+	textureShader.LoadVertexShader("shaders/TextureShader.vert");
+	textureShader.LoadFragmentShader("shaders/TextureShader.frag");
+	textureShader.Create();
+
 	//On active le test de profondeur et le face culling
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -136,6 +125,10 @@ bool Initialise(GLFWwindow* window)
 
 	Transform cubeTransform = Transform({ 2.5f, 0.f, -12.f }, { 0.f, 0.f, 0.f, 0.f }, { 1.f,1.f,1.f });
 	cube = ModelWithMat("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, light, cubeColor, cam);
+
+	Transform foxTransform = Transform({ 7.5f, 0.f, -12.f }, { 0.f, 0.f, 0.f, 0.f }, { .05f,.05f,.05f });
+	fox = ModelWithTexture("../models/fox/fox.obj", "../models/fox", "../models/fox/texture.png", textureShader, foxTransform, ligtCubeColor, cam);
+
 
 	skybox = ModelWithCubemap("../models/skybox/skybox.obj", "../models/skybox", textureFaces, skyboxShader, lightCubeTransform, ligtCubeColor, cam);
 
@@ -170,6 +163,8 @@ void Render(GLFWwindow* window)
 	//On peut override de cette manière la matériaux chargé
 	cube.setMaterial(pearl);
 	cube.render(window);
+
+	fox.render(window);
 }
 
 void Update(GLFWwindow* window) {
