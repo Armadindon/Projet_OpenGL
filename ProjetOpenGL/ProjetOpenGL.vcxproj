@@ -147,19 +147,20 @@
   <ItemGroup>
     <ClCompile Include="..\common\GLShader.cpp" />
     <ClCompile Include="..\common\toolsbox.cpp" />
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="headers\Vector.cpp" />
-    <ClCompile Include="Matrix.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Object3D.cpp" />
+    <ClCompile Include="implementations\Camera.cpp" />
+    <ClCompile Include="implementations\Matrix.cpp" />
+    <ClCompile Include="implementations\Model.cpp" />
+    <ClCompile Include="implementations\Object3D.cpp" />
+    <ClCompile Include="implementations\Transform.cpp" />
+    <ClCompile Include="implementations\Vector.cpp" />
     <ClCompile Include="ProjetOpenGL.cpp" />
-    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\ExampleMaterial.h" />
     <ClInclude Include="..\common\GLShader.h" />
     <ClInclude Include="..\common\toolsbox.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="ExampleMaterial.h" />
+    <ClInclude Include="headers\Camera.h" />
     <ClInclude Include="headers\Light.h" />
     <ClInclude Include="headers\Material.h" />
     <ClInclude Include="headers\Matrix.h" />
@@ -168,7 +169,7 @@
     <ClInclude Include="headers\Triangle.h" />
     <ClInclude Include="headers\Vector.h" />
     <ClInclude Include="headers\Vertex.h" />
-    <ClInclude Include="Model.h" />
+    <ClInclude Include="headers\Model.h" />
     <ClInclude Include="stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>

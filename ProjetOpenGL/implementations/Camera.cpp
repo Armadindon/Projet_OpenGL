@@ -1,5 +1,4 @@
-#include "Camera.h"
-#include "headers/Matrix.h"
+#include "../headers/Camera.h"
 
 float* Camera::getLookAtMatrix()
 {

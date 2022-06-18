@@ -9,11 +9,11 @@
 #include <vector>
 #include <iostream>
 
-#include "headers/Light.h"
+#include "../headers/Light.h"
 #include "Camera.h"
-#include "../common/GLShader.h"
-#include "../common/tiny_obj_loader.h"
-#include "headers/Transform.h"
+#include "../../common/GLShader.h"
+#include "../../common/tiny_obj_loader.h"
+#include "../headers/Transform.h"
 
 /* Classe de base de chaque modele 3D, prend le minimum pour le rendu */
 class Model

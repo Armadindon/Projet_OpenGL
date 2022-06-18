@@ -3,8 +3,10 @@
 #ifndef _Camera_H_
 #define _Camera_H_
 
-#include "headers/Vertex.h"
-#include "headers/Vector.h"
+#include "../headers/Vertex.h"
+#include "../headers/Vector.h"
+#include "../headers/Matrix.h"
+
 #include <GLFW/glfw3.h>
 
 class Camera {

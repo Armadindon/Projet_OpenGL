@@ -8,22 +8,25 @@
     <ClCompile Include="..\common\GLShader.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>implementations</Filter>
-    </ClCompile>
-    <ClCompile Include="Object3D.cpp">
-      <Filter>implementations</Filter>
-    </ClCompile>
-    <ClCompile Include="Matrix.cpp">
-      <Filter>implementations</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>implementations</Filter>
-    </ClCompile>
     <ClCompile Include="headers\Vector.cpp">
       <Filter>implementations</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
+    <ClCompile Include="implementations\Camera.cpp">
+      <Filter>implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="implementations\Matrix.cpp">
+      <Filter>implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="implementations\Model.cpp">
+      <Filter>implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="implementations\Object3D.cpp">
+      <Filter>implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="implementations\Transform.cpp">
+      <Filter>implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="implementations\Vector.cpp">
       <Filter>implementations</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,14 +64,14 @@
     <ClInclude Include="headers\Vector.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="headers\Camera.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="ExampleMaterial.h">
+    <ClInclude Include="headers\Model.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\ExampleMaterial.h">
       <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

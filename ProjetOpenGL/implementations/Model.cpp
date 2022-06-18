@@ -1,6 +1,6 @@
-#include "Model.h"
-#include "headers/Triangle.h"
-#include "headers/Matrix.h"
+#include "../headers/Model.h"
+#include "../headers/Triangle.h"
+#include "../headers/Matrix.h"
 
 
 Model::Model(const char* model, const char* materialFolder, GLShader shader, Transform tf, float* color, Camera* cam) 

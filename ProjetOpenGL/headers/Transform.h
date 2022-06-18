@@ -5,6 +5,9 @@
 
 #include "Vertex.h"
 #include "Vector.h"
+#include "Matrix.h"
+#include "../../common/toolsbox.h"
+#include <stdlib.h>
 
 class Transform {
 

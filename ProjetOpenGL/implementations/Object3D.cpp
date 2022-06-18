@@ -1,4 +1,4 @@
-#include "headers/Object3D.h"
+#include "../headers/Object3D.h"
 
 ModelWithMat::ModelWithMat(const char* model, const char* materialFolder, GLShader shader, Transform tf, LightParams light, float* color, Camera* cam)
 {

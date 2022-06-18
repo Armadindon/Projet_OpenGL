@@ -17,11 +17,11 @@
 #include "headers/Vertex.h"
 #include "headers/Transform.h"
 #include "headers/Object3D.h"
-#include "Model.h"
+#include "headers/Model.h"
 #include "headers/Light.h"
 #include "headers/Vector.h"
-#include "Camera.h"
-#include "ExampleMaterial.h"
+#include "headers/Camera.h"
+#include "../common/ExampleMaterial.h"
 
 
 // attention, ce define ne doit etre specifie que dans 1 seul fichier cpp
