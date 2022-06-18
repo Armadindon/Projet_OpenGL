@@ -29,9 +29,13 @@
     <ClCompile Include="implementations\Vector.cpp">
       <Filter>implementations</Filter>
     </ClCompile>
-    <ClCompile Include="implementations\Matrix4.cpp" />
-    <ClCompile Include="implementations\ModelWithCubemap.cpp" />
     <ClCompile Include="implementations\ModelWithTexture.cpp">
+      <Filter>implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="implementations\ModelWithCubemap.cpp">
+      <Filter>implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="implementations\Matrix4.cpp">
       <Filter>implementations</Filter>
     </ClCompile>
   </ItemGroup>
@@ -81,8 +85,10 @@
     <ClInclude Include="headers\Matrix4.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="headers\ModelWithCubemap.h" />
     <ClInclude Include="headers\ModelWithTexture.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\ModelWithCubemap.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
