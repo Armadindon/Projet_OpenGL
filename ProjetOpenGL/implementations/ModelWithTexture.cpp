@@ -94,15 +94,39 @@ void ModelWithTexture::updateUniform(GLFWwindow* window)
     GLint view = glGetUniformLocation(program, "u_view");
     Matrix4 viewMatrix = this->camera->getLookAtMatrix();
     glUniformMatrix4fv(view, 1, false, viewMatrix.getMatrixValue());
+
+    // Calcule de la matrice normale
+    GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
+    float* tempInversedWorldMatrix = (float*)malloc(sizeof(float) * 16);
+    float* tempNormalMatrix = (float*)malloc(sizeof(float) * 16);
+    inverse(worldPosition.getMatrixValue(), tempInversedWorldMatrix);
+    Matrix4 inversedWorldMatrix(tempInversedWorldMatrix);
+    MatrixTranspose(inversedWorldMatrix.getMatrixValue(), tempNormalMatrix);
+    Matrix4 normalMatrix(tempNormalMatrix);
+    free(tempInversedWorldMatrix);
+    free(tempNormalMatrix);
+
+    glUniformMatrix4fv(normalMatrixLoc, 1, false, normalMatrix.getMatrixValue());
+
+    // Gestion de la lumière
+    GLint ligtPos = glGetUniformLocation(program, "u_lightPos");
+    glUniform3fv(ligtPos, 1, this->light.position);
+    GLint ambiant = glGetUniformLocation(program, "u_ambiantColor");
+    glUniform4fv(ambiant, 1, this->light.ambientColor);
+    GLint diffuse = glGetUniformLocation(program, "u_diffuseColor");
+    glUniform4fv(diffuse, 1, this->light.diffuseColor);
+    GLint specular = glGetUniformLocation(program, "u_specularColor");
+    glUniform4fv(specular, 1, this->light.specularColor);
 }
 
-ModelWithTexture::ModelWithTexture(const char* model, const char* materialFolder, const char* textureToLoad, GLShader shader, Transform tf, float* color, Camera* cam)
+ModelWithTexture::ModelWithTexture(const char* model, const char* materialFolder, const char* textureToLoad, GLShader shader, Transform tf, float* color, Camera* cam, LightParams light)
 {
     this->shader = shader;
     this->position = tf;
     this->color = color;
     this->camera = cam;
     this->fileToLoad = textureToLoad;
+    this->light = light;
 
     loadObjFile(model, materialFolder);
     init();

@@ -127,8 +127,7 @@ bool Initialise(GLFWwindow* window)
 	cube = ModelWithMat("../models/cube/cube.obj", "../models/cube", modelShader, cubeTransform, light, cubeColor, cam);
 
 	Transform foxTransform = Transform({ 7.5f, 0.f, -12.f }, { 0.f, 0.f, 0.f, 0.f }, { .05f,.05f,.05f });
-	fox = ModelWithTexture("../models/fox/fox.obj", "../models/fox", "../models/fox/texture.png", textureShader, foxTransform, ligtCubeColor, cam);
-
+	fox = ModelWithTexture("../models/fox/fox.obj", "../models/fox", "../models/fox/texture.png", textureShader, foxTransform, ligtCubeColor, cam, light);
 
 	skybox = ModelWithCubemap("../models/skybox/skybox.obj", "../models/skybox", textureFaces, skyboxShader, lightCubeTransform, ligtCubeColor, cam);
 
