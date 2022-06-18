@@ -29,6 +29,7 @@
     <ClCompile Include="implementations\Vector.cpp">
       <Filter>implementations</Filter>
     </ClCompile>
+    <ClCompile Include="implementations\Matrix4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Vertex.h">
@@ -72,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="..\common\ExampleMaterial.h">
       <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Matrix4.h">
+      <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

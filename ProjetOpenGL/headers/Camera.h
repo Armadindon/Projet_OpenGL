@@ -6,6 +6,7 @@
 #include "../headers/Vertex.h"
 #include "../headers/Vector.h"
 #include "../headers/Matrix.h"
+#include "../headers/Matrix4.h"
 
 #include <GLFW/glfw3.h>
 
@@ -38,7 +39,7 @@ public:
 		this->mouseLastY = height / 2;
 	};
 
-	float* getLookAtMatrix();
+	Matrix4 getLookAtMatrix();
 	void processInput(GLFWwindow* window);
 	void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 	const vec3 getPosition();

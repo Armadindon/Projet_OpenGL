@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "../headers/Light.h"
+#include "../headers/Matrix4.h"
 #include "Camera.h"
 #include "../../common/GLShader.h"
 #include "../../common/tiny_obj_loader.h"

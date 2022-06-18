@@ -6,6 +6,7 @@
 #include "Vertex.h"
 #include "Vector.h"
 #include "Matrix.h"
+#include "Matrix4.h"
 #include "../../common/toolsbox.h"
 #include <stdlib.h>
 
@@ -32,7 +33,7 @@ public:
 	void setScale(vec3 scale);
 	vec3 getScale();
 
-	float* getWorldMatrix();
+	Matrix4 getWorldMatrix();
 };
 
 #endif

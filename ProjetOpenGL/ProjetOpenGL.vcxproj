@@ -150,6 +150,7 @@
     <ClCompile Include="headers\Vector.cpp" />
     <ClCompile Include="implementations\Camera.cpp" />
     <ClCompile Include="implementations\Matrix.cpp" />
+    <ClCompile Include="implementations\Matrix4.cpp" />
     <ClCompile Include="implementations\Model.cpp" />
     <ClCompile Include="implementations\Object3D.cpp" />
     <ClCompile Include="implementations\Transform.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="headers\Light.h" />
     <ClInclude Include="headers\Material.h" />
     <ClInclude Include="headers\Matrix.h" />
+    <ClInclude Include="headers\Matrix4.h" />
     <ClInclude Include="headers\Object3D.h" />
     <ClInclude Include="headers\Transform.h" />
     <ClInclude Include="headers\Triangle.h" />

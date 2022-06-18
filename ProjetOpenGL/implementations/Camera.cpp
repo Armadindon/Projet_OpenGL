@@ -1,6 +1,6 @@
 #include "../headers/Camera.h"
 
-float* Camera::getLookAtMatrix()
+Matrix4 Camera::getLookAtMatrix()
 {
 	vec3 cameraPos = this->position;
 	vec3 cameraTarget = this->position + this->front;
@@ -24,9 +24,9 @@ float* Camera::getLookAtMatrix()
 		-cameraPos.x, -cameraPos.y, -cameraPos.z, 1.f
 	};
 
-	float* lookAtMatrix = (float*) malloc(sizeof(float) * 16);
-	MatrixMultiply(staticLookAtMatrix1, staticLookAtMatrix2, lookAtMatrix);
-
+	float* tempLookAtMatrix = (float*) malloc(sizeof(float) * 16);
+	MatrixMultiply(staticLookAtMatrix1, staticLookAtMatrix2, tempLookAtMatrix);
+	Matrix4 lookAtMatrix(tempLookAtMatrix);
 	return lookAtMatrix;
 }
 

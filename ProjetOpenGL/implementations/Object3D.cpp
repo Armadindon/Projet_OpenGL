@@ -135,15 +135,20 @@ void ModelWithMat::updateUniform(GLFWwindow* window)
 	auto program = shader.GetProgram();
 	glUseProgram(program);
 
-	float* worldPosition = this->position.getWorldMatrix();
+	Matrix4 worldPosition = this->position.getWorldMatrix();
 
 	// Calcule de la matrice normale
 	GLint normalMatrixLoc = glGetUniformLocation(program, "u_normalMatrix");
-	float* inversedWorldMatrix = (float*)malloc(sizeof(float) * 16);
-	float* normalMatrix = (float*)malloc(sizeof(float) * 16);
-	inverse(worldPosition, inversedWorldMatrix);
-	MatrixTranspose(inversedWorldMatrix, normalMatrix);
-	glUniformMatrix4fv(normalMatrixLoc, 1, false, normalMatrix);
+	float* tempInversedWorldMatrix = (float*)malloc(sizeof(float) * 16);
+	float* tempNormalMatrix = (float*)malloc(sizeof(float) * 16);
+	inverse(worldPosition.getMatrixValue(), tempInversedWorldMatrix);
+	Matrix4 inversedWorldMatrix(tempInversedWorldMatrix);
+	MatrixTranspose(inversedWorldMatrix.getMatrixValue(), tempNormalMatrix);
+	Matrix4 normalMatrix(tempNormalMatrix);
+	free(tempInversedWorldMatrix);
+	free(tempNormalMatrix);
+
+	glUniformMatrix4fv(normalMatrixLoc, 1, false, normalMatrix.getMatrixValue());
 
 	// Gestion de la lumière
 	GLint ligtPos = glGetUniformLocation(program, "u_lightPos");

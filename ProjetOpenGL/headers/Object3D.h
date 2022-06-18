@@ -16,6 +16,7 @@
 #include "Matrix.h"
 #include "Model.h"
 #include "Camera.h"
+#include "Matrix4.h"
 
 #include <GLFW/glfw3.h>
 #include <vector>

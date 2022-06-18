@@ -1,20 +1,27 @@
-#include "Matrix4.h"
+#include "../headers/Matrix4.h"
 #include <iostream>
 #include <vector>
 #include <iterator>
 #include <string>
 
-
 using std::vector; using std::copy;
 
 Matrix4::Matrix4(float* value) {
 	matrix = (float*)malloc(sizeof(float) * 16);
-	copy(value[0], value[15], matrix[0]);
+
+	if(matrix){
+		for (int i = 0; i < 16;i++) {
+			matrix[i] = value[i];
+		}
+	}
 }
 
 Matrix4::~Matrix4()
 {
-	free(matrix);
+	if (matrix != NULL) {
+		//free(matrix);
+		matrix = NULL;
+	}
 }
 
 float* Matrix4::getMatrixValue() {
@@ -22,7 +29,9 @@ float* Matrix4::getMatrixValue() {
 }
 
 void Matrix4::setMatrixValue(float* value) {
-	copy(value[0], value[15], matrix[0]);
+	for (int i = 0; i < 16;i++) {
+		matrix[i] = value[i];
+	}
 }
 
 Matrix4 Matrix4::getTranslationMatrix(float translationX, float translationY, float translationZ) {

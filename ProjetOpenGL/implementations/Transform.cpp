@@ -1,3 +1,8 @@
+#include "../headers/Transform.h"
+
+#include "../headers/Matrix.h"
+#include "../headers/Matrix4.h"
+#include <stdlib.h>
 
 void Transform::setTranslation(vec3 translation)
 {
@@ -29,18 +34,18 @@ vec3 Transform::getScale()
 	return this->scale;
 }
 
-float* Transform::getWorldMatrix()
+Matrix4 Transform::getWorldMatrix()
 {
-	Matrix4 M({});
-	Matrix4 translationMatrix = M.getTranslationMatrix(this->translation.x, this->translation.y, this->translation.z);
-	Matrix4 rotationMatrix = M.getRotationMatrix(this->rotation.x, this->rotation.y, this->rotation.z, this->rotation.theta);
-	Matrix4 scaleMatrix = M.getScaleMatrix(this->scale.x, this->scale.y, this->scale.z);
+	
+	Matrix4 translationMatrix = Matrix4::getTranslationMatrix(this->translation.x, this->translation.y, this->translation.z);
+	Matrix4 rotationMatrix = Matrix4::getRotationMatrix(this->rotation.x, this->rotation.y, this->rotation.z, this->rotation.theta);
+	Matrix4 scaleMatrix = Matrix4::getScaleMatrix(this->scale.x, this->scale.y, this->scale.z);
 	
 	float* result = (float*)malloc(sizeof(float) * 16);
-	float* worldMatrix = (float*)malloc(sizeof(float) * 16);
+	float* tempWorldMatrix = (float*)malloc(sizeof(float) * 16);
 
 	MatrixMultiply(translationMatrix.getMatrixValue(), rotationMatrix.getMatrixValue(), result);
-	MatrixMultiply(result, scaleMatrix.getMatrixValue(), worldMatrix);
-
-	return worldMatrix;
+	MatrixMultiply(result, scaleMatrix.getMatrixValue(), tempWorldMatrix);
+	Matrix4 WorldMatrix(tempWorldMatrix);
+	return WorldMatrix;
 }
