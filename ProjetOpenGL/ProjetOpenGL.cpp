@@ -214,25 +214,25 @@ void Render(GLFWwindow* window)
 	//On affiche la nouvelle fenetre Imgui
 	ImGui::Begin("Fenetre des parametres");
 	ImGui::Text("Les parametres ne sont pas accessibles en mode \"Camera\"");
-	ImGui::Text("Pour changer de mode ! Appuyez sur ctrl gauche");
+	ImGui::Text("Pour changer de mode : Appuyez sur CTRL Gauche");
 
 	if (ImGui::TreeNode("Parametres Couleurs")) {
-		ImGui::ColorEdit4("Couleur du cube de lumière", ligtCubeColor);
-		ImGui::ColorEdit4("Couleur du cube", cubeColor);
-		ImGui::ColorEdit4("Couleur de la sphere", sphereColor);
+		ImGui::ColorEdit4("Couleur du Cube Lumiere", ligtCubeColor);
+		ImGui::ColorEdit4("Couleur du Cube", cubeColor);
+		ImGui::ColorEdit4("Couleur de la Sphere", sphereColor);
 		ImGui::TreePop();
 	}
 
 	if (ImGui::TreeNode("Parametres Lumiere")) {
-		ImGui::ColorEdit3("Couleur de la lumiere ambiante", ambiant);
-		ImGui::ColorEdit3("Couleur de la lumiere diffuse", diffuse);
-		ImGui::ColorEdit3("Couleur de la lumiere speculaire", specular);
+		ImGui::ColorEdit3("Couleur de la Lumiere Ambiante", ambiant);
+		ImGui::ColorEdit3("Couleur de la Lumiere Diffuse", diffuse);
+		ImGui::ColorEdit3("Couleur de la Lumiere Speculaire", specular);
 		ImGui::TreePop();
 	}
 
 	if (ImGui::TreeNode("Parametres Camera")) {
-		if (ImGui::SliderFloat("Camera Speed", &cameraSpeed, 0.0f, 10.0f)) cam->setSpeed(cameraSpeed);
-		if(ImGui::SliderFloat("Camera Sensibility", &cameraSensibility, 0.0f, 1.0f)) cam->setSensitivity(cameraSensibility);
+		if (ImGui::SliderFloat("Vitesse", &cameraSpeed, 0.0f, 10.0f)) cam->setSpeed(cameraSpeed);
+		if(ImGui::SliderFloat("Sensibilite", &cameraSensibility, 0.0f, 1.0f)) cam->setSensitivity(cameraSensibility);
 		ImGui::TreePop();
 	}
 
