@@ -24,11 +24,11 @@ Pour pouvoir interagir avec cette dernière, il faut l'activer à partir de la t
 
 À partir d'une interface réajustable implémentée grâce à la librairie IMGUI, il est possible de changer divers paramètres :
 
-- les couleurs - les objets changent de couleur après qu'un code RGBA leur a été donné
-- les materiaux - les objets changent leurs materiel après la selection d'un nouveau materiel (par défaut, le materiel chargé est celui associé au modèle obj)
-- la lumière - les différentes lumières de couleur émises
-- la caméra - sa vitesse de déplacement et sa sensibilité à la souris
-- skybox - les différentes images de fond
+- Les couleurs - les objets changent de couleur après qu'un code RGBA leur a été donné
+- Les matériaux - les objets changent leurs matériels après la sélection d'un nouveau matériel (par défaut, le matériel chargé est celui associé au modèle.obj)
+- La lumière - les différentes lumières de couleur émises
+- La caméra - sa vitesse de déplacement et sa sensibilité à la souris
+- Skybox - les différentes images de fond
 
 # Réalisations
 
@@ -36,3 +36,16 @@ Pour pouvoir interagir avec cette dernière, il faut l'activer à partir de la t
 
 Lors de ce projet, nous avons réalisé divers développements basés sur un cahier des charges donné.
 
+Nous avons alors implémenté :
+
+- Plusieurs objets 3D sous format .obj avec des particularités différentes (textures ou matériaux) ; les objets ont été chargés grâce à la bibliothèque TinyOBJLoader
+- Une illumination est présente au travers d'un objet émanant de la lumière
+- La navigation se fait au travers de la gestion de la caméra à partir des touches précisées précédemment
+- Une classe Matrix4 permettant de simplifier nos calculs
+- Une interface graphique réalisée grâce à la bibliothèque IMGUI
+
+# Conclusion
+
+Ce projet a été très intéressant, il nous a permis de découvrir OpenGL ainsi que ses principales fonctionnalités. 
+
+Nous les avons implémentées en parallèle de nos développements réalisés.
