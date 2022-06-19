@@ -25,6 +25,7 @@ Pour pouvoir interagir avec cette dernière, il faut l'activer à partir de la t
 À partir d'une interface réajustable implémentée grâce à la librairie IMGUI, il est possible de changer divers paramètres :
 
 - les couleurs - les objets changent de couleur après qu'un code RGBA leur a été donné
+- les materiaux - les objets changent leurs materiel après la selection d'un nouveau materiel (par défaut, le materiel chargé est celui associé au modèle obj)
 - la lumière - les différentes lumières de couleur émises
 - la caméra - sa vitesse de déplacement et sa sensibilité à la souris
 - skybox - les différentes images de fond
