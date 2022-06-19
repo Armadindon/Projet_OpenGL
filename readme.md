@@ -39,10 +39,17 @@ Lors de ce projet, nous avons réalisé divers développements basés sur un cah
 Nous avons alors implémenté :
 
 - Plusieurs objets 3D sous format .obj avec des particularités différentes (textures ou matériaux) ; les objets ont été chargés grâce à la bibliothèque TinyOBJLoader
+- Différents shaders sont présents pour les objets :
+  - Shader pour cubemap
+  - Shader de texture
+  - Shader pour matériaux
+  - Shader pour lumière
+- Les objets 3D ont été imbriqués dans un format orienté objet de sorte à profiter de l'héritage et éviter de la redondance dans notre code
 - Une illumination est présente au travers d'un objet émanant de la lumière
 - La navigation se fait au travers de la gestion de la caméra à partir des touches précisées précédemment
 - Une classe Matrix4 permettant de simplifier nos calculs
 - Une interface graphique réalisée grâce à la bibliothèque IMGUI
+- Un mappage d'environnement réalisé au travers de la réalisation d'une cubemap
 
 # Conclusion
 
