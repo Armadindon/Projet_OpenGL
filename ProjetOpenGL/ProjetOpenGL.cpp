@@ -46,6 +46,39 @@ std::string possibleSkyboxes[] = {
 	"lycksele"
 };
 
+typedef struct MaterialAndName {
+	Material mat;
+	const char* name;
+};
+
+std::vector<MaterialAndName> availableMaterials = {
+	{emerald, "emerald"},
+	{jade, "jade"},
+	{obsidian, "obsidian"},
+	{pearl, "pearl"},
+	{ruby, "ruby"},
+	{turquoise, "turquoise"},
+	{brass, "brass"},
+	{bronze, "bronze"},
+	{chrome, "chrome"},
+	{copper, "copper"},
+	{gold, "gold"},
+	{silver, "silver"},
+	{black_plastic, "black_plastic"},
+	{cyan_plastic, "cyan_plastic"},
+	{green_plastic, "green_plastic"},
+	{red_plastic, "red_plastic"},
+	{white_plastic, "white_plastic"},
+	{yellow_plastic, "yellow_plastic"},
+	{black_rubber, "black_rubber"},
+	{cyan_rubber, "cyan_rubber"},
+	{green_rubber, "green_rubber"},
+	{red_rubber, "red_rubber"},
+	{white_rubber, "white_rubber"},
+	{yellow_rubber, "yellow_rubber"},
+};
+
+int cubeActualMaterial = -1, sphereActualMaterial = -1;
 
 GLShader modelShader, lightShader, skyboxShader, textureShader;
 
@@ -206,8 +239,6 @@ void Render(GLFWwindow* window)
 	lightCube.render(window);
 	sphere.render(window);
 
-	//On peut override de cette manière la matériaux chargé
-	cube.setMaterial(pearl);
 	cube.render(window);
 
 	fox.render(window);
@@ -220,6 +251,36 @@ void Render(GLFWwindow* window)
 		ImGui::ColorEdit4("Couleur du Cube Lumiere", ligtCubeColor);
 		ImGui::ColorEdit4("Couleur du Cube", cubeColor);
 		ImGui::ColorEdit4("Couleur de la Sphere", sphereColor);
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Parametres Materiaux"))
+	{
+		ImGui::Text("Par defaut, les materiels charges sont ceux inclus avec le modele (.mtl)");
+		if (ImGui::TreeNode("Parametres Materiel Sphere"))
+		{
+			for (int n = 0; n < availableMaterials.size(); n++)
+			{
+				if (ImGui::Selectable(availableMaterials[n].name, sphereActualMaterial == n)) {
+					sphereActualMaterial = n;
+					sphere.setMaterial(availableMaterials[n].mat);
+				}
+
+			}
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Parametres Materiel Cube"))
+		{
+			for (int n = 0; n < availableMaterials.size(); n++)
+			{
+				if (ImGui::Selectable(availableMaterials[n].name, cubeActualMaterial == n)) {
+					cubeActualMaterial = n;
+					cube.setMaterial(availableMaterials[n].mat);
+				}
+
+			}
+			ImGui::TreePop();
+		}
 		ImGui::TreePop();
 	}
 
